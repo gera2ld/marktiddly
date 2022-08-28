@@ -43,6 +43,7 @@ async function loadFile(path: string, cwd: string) {
 }
 
 function parseMetadata<T extends { title?: string }>(content: string) {
+  const id = content.match(/\b(\d{14})\b/)?.[1];
   let frontmatter: T;
   const endOffset = content.startsWith('---\n')
     ? content.indexOf('\n---\n')
@@ -58,7 +59,7 @@ function parseMetadata<T extends { title?: string }>(content: string) {
     content = content.slice(offset).trim();
   }
   const title = frontmatter?.title || getTitle(content);
-  return { frontmatter, title, content };
+  return { id, frontmatter, title, content };
 }
 
 function getTitle(content: string) {

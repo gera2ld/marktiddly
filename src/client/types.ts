@@ -1,6 +1,7 @@
 export interface MarkTiddler {
   path: string;
   content: string;
+  id?: string;
   html?: string;
   ssr: boolean;
 }

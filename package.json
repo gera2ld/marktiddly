@@ -1,0 +1,52 @@
+{
+  "name": "marktiddly",
+  "version": "0.0.0",
+  "description": "",
+  "author": "Gerald <gera2ld@live.com>",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "ci": "run-s lint",
+    "format": "prettier --write --plugin-search-dir=. .",
+    "lint": "prettier --check --plugin-search-dir=. . && eslint --ext .ts,tsx src",
+    "dev": "gulp dev",
+    "clean": "gulp clean",
+    "build:js": "cross-env NODE_ENV=production gulp build",
+    "build": "run-s ci clean build:js",
+    "prepare": "husky install",
+    "prepublishOnly": "run-s build"
+  },
+  "module": "dist/index.mjs",
+  "files": [
+    "dist",
+    "types"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "typings": "types/index.d.ts",
+  "dependencies": {
+    "@babel/runtime": "^7.18.9",
+    "express": "^4.18.1",
+    "github-markdown-css": "^5.1.0",
+    "globby": "^13.1.2",
+    "js-yaml": "^4.1.0",
+    "prismjs": "^1.29.0",
+    "remarkable": "^2.0.1",
+    "twind": "^0.16.17",
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "@gera2ld/plaid": "~2.5.6",
+    "@gera2ld/plaid-common-ts": "~2.5.1",
+    "@gera2ld/plaid-rollup": "~2.5.6",
+    "del": "^7.0.0",
+    "fancy-log": "^2.0.0",
+    "gulp": "^4.0.2",
+    "http-proxy-middleware": "^2.0.6",
+    "husky": "^8.0.1",
+    "rollup-plugin-browsersync": "^1.3.3",
+    "rollup-plugin-vue": "^6.0.0"
+  }
+}

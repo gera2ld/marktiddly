@@ -6,9 +6,9 @@ import yaml from 'js-yaml';
 import { render } from './util';
 
 const app = new express();
-const port = 4000;
+const port = +process.env.MARKTIDDLY_PORT || 4000;
 const cwd = resolve(process.argv[2] ?? '.');
-const ssr = true;
+const ssr = process.env.MARKTIDDLY_SSR !== 'false';
 
 const loading = loadFiles(cwd);
 
@@ -29,13 +29,13 @@ async function loadFiles(cwd: string) {
 }
 
 async function loadFile(path: string, cwd: string) {
-  const { frontmatter, title, content } = parseMetadata(
+  const { id, frontmatter, content } = parseMetadata(
     await readFile(join(cwd, path), 'utf8')
   );
   return {
-    path: path.replace(/\.md$/, ''),
+    id,
+    name: path.replace(/\.md$/, ''),
     frontmatter,
-    title,
     content,
     html: ssr ? render(content) : undefined,
     ssr,
@@ -58,10 +58,5 @@ function parseMetadata<T extends { title?: string }>(content: string) {
     const offset = endOffset + 5;
     content = content.slice(offset).trim();
   }
-  const title = frontmatter?.title || getTitle(content);
-  return { id, frontmatter, title, content };
-}
-
-function getTitle(content: string) {
-  if (content.startsWith('# ')) return content.slice(2).split('\n')[0].trim();
+  return { id, frontmatter, content };
 }

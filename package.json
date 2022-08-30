@@ -32,6 +32,7 @@
     "github-markdown-css": "^5.1.0",
     "globby": "^13.1.2",
     "js-yaml": "^4.1.0",
+    "lodash.debounce": "^4.0.8",
     "prismjs": "^1.29.0",
     "remarkable": "^2.0.1",
     "twind": "^0.16.17",

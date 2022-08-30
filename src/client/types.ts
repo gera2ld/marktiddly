@@ -1,11 +1,15 @@
 export interface MarkTiddler {
-  path: string;
-  content: string;
   id?: string;
+  name: string;
+  frontmatter?: { title?: string } & Record<string, unknown>;
+  content: string;
   html?: string;
   ssr: boolean;
 }
 
 declare global {
-  const Prism: any;
+  interface Window {
+    Prism: any;
+    __tiddlers: MarkTiddler[];
+  }
 }

@@ -12,18 +12,35 @@ async function requestJson<T>(url: string) {
 }
 
 export async function loadTiddlers() {
-  const data = await requestJson<Array<MarkTiddler>>('/api/tiddlers');
+  if (window.__tiddlers) return window.__tiddlers;
+  const data = await requestJson<MarkTiddler[]>('/api/tiddlers');
   return data;
 }
 
 export function openTiddler(item: MarkTiddler) {
   item.html ??= md.render(item.content);
-  store.openPaths = [
-    item.path,
-    ...store.openPaths.filter((path) => path !== item.path),
-  ];
+  const index = store.openNames.indexOf(item.name);
+  if (index < 0) {
+    store.openNames = [item.name, ...store.openNames];
+  }
 }
 
 export function closeTiddler(item: MarkTiddler) {
-  store.openPaths = store.openPaths.filter((path) => path !== item.path);
+  store.openNames = store.openNames.filter((name) => name !== item.name);
+}
+
+export function fuzzySearch(keyword: string, data: string) {
+  const result: number[] = [];
+  let j = 0;
+  for (
+    let i = 0;
+    i < keyword.length && keyword.length - i <= data.length - j;
+    i += 1
+  ) {
+    j = data.indexOf(keyword[i], j);
+    if (j < 0) break;
+    result.push(j);
+    j += 1;
+  }
+  return result.length === keyword.length ? result : undefined;
 }

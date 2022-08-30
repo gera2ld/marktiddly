@@ -1,12 +1,12 @@
 import { reactive } from 'vue';
-import { MarkTiddly } from './types';
+import { MarkTiddler } from './types';
 
 export const store = reactive<{
   keyword: string;
-  tiddlers: Map<string, MarkTiddly>;
-  openPaths: string[];
+  tiddlers: Map<string, MarkTiddler>;
+  openNames: string[];
 }>({
   keyword: '',
   tiddlers: new Map(),
-  openPaths: [],
+  openNames: [],
 });

@@ -1,4 +1,3 @@
-import md from '../common/remarkable';
 import { MarkTiddler } from '../common/types';
 import { store } from './store';
 
@@ -12,21 +11,32 @@ async function requestJson<T>(url: string) {
 }
 
 export async function loadTiddlers() {
-  if (window.__tiddlers) return window.__tiddlers;
-  const data = await requestJson<MarkTiddler[]>('/api/tiddlers');
-  return data;
+  let { tiddlers, openNames } = window.marktiddly || {};
+  if (!tiddlers)
+    ({ tiddlers, openNames } = await requestJson<{
+      tiddlers: MarkTiddler[];
+      openNames?: string[];
+    }>('/api/data'));
+  const tiddlerMap = new Map<string, MarkTiddler>();
+  tiddlers.forEach((item) => {
+    tiddlerMap.set(item.name.toLowerCase(), item);
+    if (item.id) tiddlerMap.set(item.id, item);
+  });
+  store.tiddlers = tiddlerMap;
+  store.openNames = openNames || [];
 }
 
 export function openTiddler(item: MarkTiddler) {
-  item.html ??= md.render(item.content);
-  const index = store.openNames.indexOf(item.name);
+  const name = item.name.toLowerCase();
+  const index = store.openNames.indexOf(name);
   if (index < 0) {
-    store.openNames = [item.name, ...store.openNames];
+    store.openNames = [name, ...store.openNames];
   }
 }
 
 export function closeTiddler(item: MarkTiddler) {
-  store.openNames = store.openNames.filter((name) => name !== item.name);
+  const itemName = item.name.toLowerCase();
+  store.openNames = store.openNames.filter((name) => name !== itemName);
 }
 
 export function fuzzySearch(keyword: string, data: string) {

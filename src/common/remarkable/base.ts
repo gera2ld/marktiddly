@@ -6,7 +6,7 @@ md.core.ruler.before('inline', 'rel-link', (state) => {
     if (token.type === 'inline' && token.content) {
       token.content = token.content.replace(
         /\[(.+?)\]\(\[\[(.+?)\]\]\)|\[\[(.+?)\]\]/g,
-        (m, g1, g2, g3) => `[${g1 || g3}](#${g2 || g3})`
+        (m, g1, g2, g3) => `[${g1 || g3}](#${(g2 || g3).toLowerCase()})`
       );
     }
   }

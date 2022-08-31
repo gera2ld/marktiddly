@@ -13,7 +13,11 @@ program
   .command('generate')
   .description('Generate a static HTML with everything')
   .option('--cwd <path>', 'Specify a current working directory', '.')
-  .option('--ssr', 'Whether to enable server side Markdown rendering', false)
+  .option('--ssr', 'Whether to enable server side Markdown rendering', true)
+  .option(
+    '--default-open [names...]',
+    'The basenames of Markdown files that should be open on page load, note that `.md` must be omitted'
+  )
   .option(
     '-o, --output <path>',
     'Write the output into a file instead of stdout'
@@ -32,8 +36,12 @@ program
 program
   .command('serve')
   .description('Serve the tiddlers as a website')
-  .option('--cwd', 'Specify a current working directory', '.')
+  .option('--cwd <path>', 'Specify a current working directory', '.')
   .option('--ssr', 'Whether to enable server side Markdown rendering', false)
+  .option(
+    '--default-open [names...]',
+    'The basenames of Markdown files that should be open on page load, note that `.md` must be omitted'
+  )
   .option('-p, --port <port>', 'The port to listen', '4000')
   .action((options) => {
     serve(options);

@@ -107,15 +107,7 @@ const handleClose = (tiddler: MarkTiddler) => {
   closeTiddler(tiddler);
 };
 
-loadTiddlers().then((tiddlers) => {
-  const tiddlerMap = new Map<string, MarkTiddler>();
-  tiddlers.forEach((item) => {
-    tiddlerMap.set(item.name, item);
-    if (item.id) tiddlerMap.set(item.id, item);
-  });
-  store.tiddlers = tiddlerMap;
-  handleHash();
-});
+loadTiddlers().then(handleHash);
 
 let lock = false;
 

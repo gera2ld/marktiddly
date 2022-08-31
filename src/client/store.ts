@@ -8,5 +8,5 @@ export const store = reactive<{
 }>({
   keyword: '',
   tiddlers: new Map(),
-  openNames: [],
+  openNames: window.marktiddly?.openNames || [],
 });

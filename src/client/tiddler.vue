@@ -19,6 +19,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
 import { MarkTiddler } from '../common/types';
+import md from '../common/remarkable';
 import { highlight } from './util';
 import { store } from './store';
 
@@ -46,6 +47,7 @@ const handleClick = (e: MouseEvent) => {
 };
 
 onMounted(() => {
+  tiddler.html ??= md.render(tiddler.content);
   if (el.value && !tiddler.ssr) highlight(el.value);
   body.value.querySelectorAll('a').forEach((a) => {
     const href = a.getAttribute('href');

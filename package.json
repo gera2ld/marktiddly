@@ -6,6 +6,7 @@
   "license": "MIT",
   "type": "module",
   "bin": "dist/bin.mjs",
+  "main": "dist/bin.mjs",
   "scripts": {
     "ci": "run-s lint",
     "format": "prettier --write --plugin-search-dir=. .",

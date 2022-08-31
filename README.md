@@ -11,6 +11,13 @@ So I created this tool to enjoy them both. I write Markdown with [Zettlr](https:
 ## Usage
 
 ```base
-$ npx marktiddly --cwd my-docs -o output.html
+$ npx marktiddly generate --cwd my-docs -o output.html
 $ open output.html
+```
+
+You can also try the demo in this repository with the command below:
+
+```bash
+$ npx marktiddly serve --cwd demo --default-open marktiddly
+# Then visit http://localhost:4000
 ```

@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
-import { MarkTiddler } from './types';
+import { MarkTiddler } from '../common/types';
 import { highlight } from './util';
 import { store } from './store';
 

@@ -58,7 +58,7 @@ import debounce from 'lodash.debounce';
 import { store } from './store';
 import { openTiddler, closeTiddler, fuzzySearch, loadTiddlers } from './util';
 import Tiddler from './tiddler.vue';
-import { MarkTiddler } from './types';
+import { MarkTiddler } from '../common/types';
 
 const matches = ref<{ title: MarkTiddler[]; content: MarkTiddler[] }>({
   title: [],

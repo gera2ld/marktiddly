@@ -1,43 +1,37 @@
 import { readFile } from 'fs/promises';
-import { join, resolve } from 'path';
-import express from 'express';
+import { join } from 'path';
 import { globby } from 'globby';
 import yaml from 'js-yaml';
-import { render } from './util';
+import md from './remarkable';
+import { MarkTiddler } from './types';
 
-const app = new express();
-const port = +process.env.MARKTIDDLY_PORT || 4000;
-const cwd = resolve(process.argv[2] ?? '.');
-const ssr = process.env.MARKTIDDLY_SSR !== 'false';
-
-const loading = loadFiles(cwd);
-
-app.get('/api/tiddlers', async (req, res) => {
-  const tiddlers = await loading;
-  res.send(tiddlers);
-});
-
-app.listen(port, () => {
-  console.info(`Listening at http://localhost:${port}`);
-});
-
-async function loadFiles(cwd: string) {
+export async function loadFiles({ cwd, ssr }: { cwd: string; ssr: boolean }) {
   const files = await globby('**/*.md', { cwd });
-  const data = await Promise.all(files.map((file) => loadFile(file, cwd)));
+  const data = await Promise.all(
+    files.map((file) => loadFile({ file, cwd, ssr }))
+  );
   console.info(`Loaded ${data.length} files`);
   return data;
 }
 
-async function loadFile(path: string, cwd: string) {
+async function loadFile({
+  file,
+  cwd,
+  ssr,
+}: {
+  file: string;
+  cwd: string;
+  ssr: boolean;
+}): Promise<MarkTiddler> {
   const { id, frontmatter, content } = parseMetadata(
-    await readFile(join(cwd, path), 'utf8')
+    await readFile(join(cwd, file), 'utf8')
   );
   return {
     id,
-    name: path.replace(/\.md$/, ''),
+    name: file.replace(/\.md$/, ''),
     frontmatter,
     content,
-    html: ssr ? render(content) : undefined,
+    html: ssr ? md.render(content) : undefined,
     ssr,
   };
 }

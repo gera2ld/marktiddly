@@ -1,5 +1,5 @@
 import md from '../common/remarkable';
-import { MarkTiddler } from './types';
+import { MarkTiddler } from '../common/types';
 import { store } from './store';
 
 export * from './prism';

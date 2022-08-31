@@ -5,6 +5,7 @@ specifiers:
   '@gera2ld/plaid': ~2.5.6
   '@gera2ld/plaid-common-ts': ~2.5.1
   '@gera2ld/plaid-rollup': ~2.5.6
+  commander: ^9.4.0
   del: ^7.0.0
   express: ^4.18.1
   fancy-log: ^2.0.0
@@ -24,6 +25,7 @@ specifiers:
 
 dependencies:
   '@babel/runtime': 7.18.9
+  commander: 9.4.0
   express: 4.18.1
   github-markdown-css: 5.1.0
   globby: 13.1.2
@@ -2720,7 +2722,6 @@ packages:
   /commander/9.4.0:
     resolution: {integrity: sha512-sRPT+umqkz90UA8M1yqYfnHlZA7fF6nSphDtxeywPZ49ysjxDQybzk13CL+mXekDRG92skbcqCLVovuCusNmFw==}
     engines: {node: ^12.20.0 || >=14}
-    dev: true
 
   /commondir/1.0.1:
     resolution: {integrity: sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==}

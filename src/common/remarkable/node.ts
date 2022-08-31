@@ -1,6 +1,6 @@
 import Prism from 'prismjs';
 import loadLanguages from 'prismjs/components/index.js';
-import md from '../common/remarkable';
+import md from './base';
 
 md.set({
   highlight: (str: string, lang: string) => {
@@ -16,6 +16,4 @@ md.set({
   },
 });
 
-export function render(content: string) {
-  return md.render(content);
-}
+export default md;

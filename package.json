@@ -1,10 +1,11 @@
 {
   "name": "marktiddly",
   "version": "0.0.0",
-  "description": "",
+  "description": "Render Markdown files as tiddlers",
   "author": "Gerald <gera2ld@live.com>",
   "license": "MIT",
   "type": "module",
+  "bin": "dist/bin.mjs",
   "scripts": {
     "ci": "run-s lint",
     "format": "prettier --write --plugin-search-dir=. .",
@@ -21,6 +22,9 @@
     "dist",
     "types"
   ],
+  "engines": {
+    "node": ">=16"
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -28,6 +32,7 @@
   "typings": "types/index.d.ts",
   "dependencies": {
     "@babel/runtime": "^7.18.9",
+    "commander": "^9.4.0",
     "express": "^4.18.1",
     "github-markdown-css": "^5.1.0",
     "globby": "^13.1.2",

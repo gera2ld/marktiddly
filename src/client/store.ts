@@ -1,5 +1,5 @@
 import { reactive } from 'vue';
-import { MarkTiddler } from './types';
+import { MarkTiddler } from '../common/types';
 
 export const store = reactive<{
   keyword: string;

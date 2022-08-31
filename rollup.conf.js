@@ -1,3 +1,4 @@
+import { resolve } from 'path';
 import plaid from '@gera2ld/plaid';
 import vue from 'rollup-plugin-vue';
 import { terser } from 'rollup-plugin-terser';
@@ -12,15 +13,24 @@ defaultOptions.extensions.unshift('.vue');
 const rollupConfig = [
   {
     input: {
-      input: 'src/server/index.ts',
+      input: 'src/bin/index.ts',
       plugins: getRollupPlugins({
         esm: true,
+        minimize: false,
+        aliases: {
+          entries: [
+            {
+              find: resolve('src/common/remarkable/index.ts'),
+              replacement: resolve('src/common/remarkable/node.ts'),
+            },
+          ],
+        },
       }),
       external: getRollupExternal(Object.keys(pkg.dependencies)),
     },
     output: {
       format: 'esm',
-      file: `${DIST}/server.mjs`,
+      file: `${DIST}/bin.mjs`,
     },
   },
   {

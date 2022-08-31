@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, nextTick } from 'vue';
 import { MarkTiddler } from '../common/types';
 import md from '../common/remarkable';
 import { highlight } from './util';
@@ -46,18 +46,22 @@ const handleClick = (e: MouseEvent) => {
   }
 };
 
-onMounted(() => {
-  tiddler.html ??= md.render(tiddler.content);
-  if (el.value && !tiddler.ssr) highlight(el.value);
+function checkLinks() {
   body.value.querySelectorAll('a').forEach((a) => {
     const href = a.getAttribute('href');
     if (href.startsWith('#')) {
       const linked = store.tiddlers.get(href.slice(1));
-      if (!linked) a.classList.add('text-red-400', 'cursor-not-allowed');
+      if (!linked) a.classList.add('non-existent');
     } else {
       a.target = '_blank';
       a.rel = 'noopener noreferrer';
     }
   });
+}
+
+onMounted(() => {
+  tiddler.html ??= md.render(tiddler.content);
+  if (el.value && !tiddler.ssr) highlight(el.value);
+  nextTick(checkLinks);
 });
 </script>

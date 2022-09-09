@@ -1,6 +1,10 @@
-import { resolve } from 'path';
+import { dirname, resolve } from 'path';
 import express from 'express';
+import { fileURLToPath } from 'url';
 import { loadFiles } from '../common/loader';
+
+const __filename = fileURLToPath(import.meta.url);
+const rootDir = dirname(dirname(__filename));
 
 export function serve({
   port,
@@ -23,11 +27,11 @@ export function serve({
   });
 
   app.get('/:path([^/]+)', (req, res) => {
-    res.sendFile(resolve('dist', req.params.path));
+    res.sendFile(resolve(rootDir, 'dist', req.params.path));
   });
 
   app.get('*', async (req, res) => {
-    res.sendFile(resolve('dist/index.html'));
+    res.sendFile(resolve(rootDir, 'dist/index.html'));
   });
 
   app.listen(+port, () => {

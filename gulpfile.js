@@ -1,3 +1,4 @@
+import childProcess from 'child_process';
 import gulp from 'gulp';
 import log from 'fancy-log';
 import { rollup, watch } from 'rollup';
@@ -33,6 +34,12 @@ async function buildJs() {
 async function watchJs() {
   const rollupConfig = await loadConfig();
   const watcher = watch(rollupConfig);
+  let serve = () => {
+    serve = null;
+    childProcess.spawn('node', ['.', 'serve', '--cwd', 'demo'], {
+      stdio: 'inherit',
+    });
+  };
   watcher.on('event', (e) => {
     if (e.code === 'ERROR') {
       console.error();
@@ -40,6 +47,7 @@ async function watchJs() {
       console.error();
     } else if (e.code === 'BUNDLE_END') {
       log(`Compilation success after ${e.duration}ms`);
+      serve?.();
     }
   });
 }

@@ -4,6 +4,7 @@ declare global {
   interface Window {
     Prism: any;
     marktiddly?: {
+      title?: string;
       tiddlers?: MarkTiddler[];
       openNames?: string[];
     };

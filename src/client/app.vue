@@ -13,15 +13,7 @@
       </TransitionGroup>
     </main>
     <aside class="w-64 flex flex-col p-4">
-      <div class="flex mb-2 text-xl text-orange-400">
-        MarkTiddly
-        <a class="ml-4" href="https://github.com/gera2ld/marktiddly">
-          <img
-            src="https://img.shields.io/github/stars/gera2ld/marktiddly?style=social"
-            alt="marktiddly"
-          />
-        </a>
-      </div>
+      <div class="flex mb-2 text-xl text-orange-400" v-text="store.title"></div>
       <input
         class="block w-full bg-transparent border-b border-gray(300 dark:700) px-2"
         type="search"
@@ -55,7 +47,16 @@
           </template>
         </template>
       </div>
-      <div>&copy; 2022 <a href="https://gera2ld.space/">Gerald</a> ❤️</div>
+      <div>
+        Powered by
+        <a
+          href="https://github.com/gera2ld/marktiddly"
+          rel="noopener noreferrer"
+        >
+          MarkTiddly
+        </a>
+        ❤️
+      </div>
     </aside>
   </div>
 </template>

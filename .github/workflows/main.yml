@@ -1,9 +1,14 @@
-name: CI
+name: Deploy demo
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
+    paths:
+      - demo/**
+      - scripts/**
+      - src/**
 
 jobs:
   build:

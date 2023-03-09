@@ -12,42 +12,40 @@ defaultOptions.extensions.unshift('.vue');
 
 const rollupConfig = [
   {
-    input: {
-      input: 'src/bin/index.ts',
-      plugins: getRollupPlugins({
-        esm: true,
-        minimize: false,
-        aliases: {
-          entries: [
-            {
-              find: resolve('src/common/remarkable/index.ts'),
-              replacement: resolve('src/common/remarkable/node.ts'),
-            },
-          ],
-        },
-      }),
-      external: getRollupExternal(Object.keys(pkg.dependencies)),
-    },
+    input: 'src/bin/index.ts',
+    plugins: getRollupPlugins({
+      esm: true,
+      minimize: false,
+      aliases: {
+        entries: [
+          {
+            find: resolve('src/common/remarkable/index.ts'),
+            replacement: resolve('src/common/remarkable/node.ts'),
+          },
+        ],
+      },
+    }),
+    external: getRollupExternal(Object.keys(pkg.dependencies)),
     output: {
       format: 'esm',
       file: `${DIST}/bin.mjs`,
+      banner: `#!/usr/bin/env node\n${BANNER}`,
     },
   },
   {
-    input: {
-      input: 'src/client/index.ts',
-      plugins: [
-        vue(),
-        ...getRollupPlugins({
-          esm: true,
-        }),
-        isProd && terser(),
-        !isProd && browserSyncPlugin({ dist: DIST }),
-      ].filter(Boolean),
-    },
+    input: 'src/client/index.ts',
+    plugins: [
+      vue(),
+      ...getRollupPlugins({
+        esm: true,
+      }),
+      isProd && terser(),
+      !isProd && browserSyncPlugin({ dist: DIST }),
+    ].filter(Boolean),
     output: {
       format: 'esm',
       file: `${DIST}/client.js`,
+      banner: BANNER,
     },
   },
 ];
@@ -58,13 +56,7 @@ rollupConfig.forEach((item) => {
     // If set to false, circular dependencies and live bindings for external imports won't work
     externalLiveBindings: false,
     ...item.output,
-    ...(BANNER && {
-      banner: BANNER,
-    }),
   };
 });
 
-export default rollupConfig.map(({ input, output }) => ({
-  ...input,
-  output,
-}));
+export default rollupConfig;

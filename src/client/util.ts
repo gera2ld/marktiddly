@@ -11,9 +11,10 @@ async function requestJson<T>(url: string) {
 }
 
 export async function loadTiddlers() {
-  let { tiddlers, openNames } = window.marktiddly || {};
+  let { title, tiddlers, openNames } = window.marktiddly || {};
   if (!tiddlers)
-    ({ tiddlers, openNames } = await requestJson<{
+    ({ title, tiddlers, openNames } = await requestJson<{
+      title?: string;
       tiddlers: MarkTiddler[];
       openNames?: string[];
     }>('/api/data'));
@@ -22,6 +23,7 @@ export async function loadTiddlers() {
     tiddlerMap.set(item.name.toLowerCase(), item);
     if (item.id) tiddlerMap.set(item.id, item);
   });
+  if (title) store.title = title;
   store.tiddlers = tiddlerMap;
   store.openNames = openNames || [];
 }

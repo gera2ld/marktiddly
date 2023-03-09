@@ -26,8 +26,8 @@ jobs:
         run: |
           pnpm i && pnpm build
           mkdir output
-          node . generate --cwd demo -o output/index.html --default-open marktiddly
-          echo '<script async defer data-website-id="74d7c261-0e76-42b1-8092-1ec201c687e3" src="https://u.gerald.win/u.js"></script>' >> output/index.html
+          node . generate --cwd demo -o output/index.html --default-open marktiddly --title "Try MarkTiddly!"
+          echo '<script defer data-domain="gera2ld.github.io" src="https://pl.gerald.win/js/script.js"></script>' >> output/index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

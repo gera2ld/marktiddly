@@ -14,6 +14,7 @@ program
   .description('Generate a static HTML with everything')
   .option('--cwd <path>', 'Specify a current working directory', '.')
   .option('--ssr', 'Whether to enable server side Markdown rendering', true)
+  .option('--title <title>', 'Set title of this static site', 'MarkTiddly')
   .option(
     '--default-open [names...]',
     'The basenames of Markdown files that should be open on page load, note that `.md` must be omitted'
@@ -38,6 +39,7 @@ program
   .description('Serve the tiddlers as a website')
   .option('--cwd <path>', 'Specify a current working directory', '.')
   .option('--ssr', 'Whether to enable server side Markdown rendering', false)
+  .option('--title <title>', 'Set title of this static site', 'MarkTiddly')
   .option(
     '--default-open [names...]',
     'The basenames of Markdown files that should be open on page load, note that `.md` must be omitted'

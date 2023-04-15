@@ -16,7 +16,7 @@ program
   .option('--ssr', 'Whether to enable server side Markdown rendering', true)
   .option('--title <title>', 'Set title of this static site', 'MarkTiddly')
   .option(
-    '--default-open [names...]',
+    '--default-open <name>',
     'The basenames of Markdown files that should be open on page load, note that `.md` must be omitted'
   )
   .option(
@@ -41,7 +41,7 @@ program
   .option('--ssr', 'Whether to enable server side Markdown rendering', false)
   .option('--title <title>', 'Set title of this static site', 'MarkTiddly')
   .option(
-    '--default-open [names...]',
+    '--default-open <name>',
     'The basenames of Markdown files that should be open on page load, note that `.md` must be omitted'
   )
   .option('-p, --port <port>', 'The port to listen', '4000')

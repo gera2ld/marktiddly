@@ -13,12 +13,12 @@ export async function generate(options: {
   cwd: string;
   ssr: boolean;
   title?: string;
-  defaultOpen?: string[];
+  defaultOpen?: string;
 }) {
   let html = await readFile(resolve(dist, 'index.html'), 'utf8');
   const tiddlers = await loadFiles(options);
   const clientJs = await readFile(resolve(dist, 'client.js'), 'utf8');
-  const openNames = options.defaultOpen?.map((name) => name.toLowerCase());
+  const activeName = options.defaultOpen?.toLowerCase();
   const { title } = options;
   if (title)
     html = html.replace(/<title>[^<]<*\/title>/, `<title>${title}</title>`);
@@ -26,7 +26,7 @@ export async function generate(options: {
     [
       '<script>',
       escapeScript(
-        'window.marktiddly=' + JSON.stringify({ title, tiddlers, openNames })
+        'window.marktiddly=' + JSON.stringify({ title, tiddlers, activeName })
       ),
       '</script>',
       `<script${g}>`,

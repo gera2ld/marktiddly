@@ -17,15 +17,15 @@ export function serve({
   cwd: string;
   ssr: boolean;
   title?: string;
-  defaultOpen?: string[];
+  defaultOpen?: string;
 }) {
   const app = new express();
   const loading = loadFiles({ cwd, ssr });
-  const openNames = defaultOpen?.map((name) => name.toLowerCase());
+  const activeName = defaultOpen?.toLowerCase();
 
   app.get('/api/data', async (req, res) => {
     const tiddlers = await loading;
-    res.send({ title, tiddlers, openNames });
+    res.send({ title, tiddlers, activeName });
   });
 
   app.get('/:path([^/]+)', (req, res) => {

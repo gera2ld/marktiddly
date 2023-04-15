@@ -11,34 +11,40 @@ async function requestJson<T>(url: string) {
 }
 
 export async function loadTiddlers() {
-  let { title, tiddlers, openNames } = window.marktiddly || {};
+  let { title, tiddlers, activeName } = window.marktiddly || {};
   if (!tiddlers)
-    ({ title, tiddlers, openNames } = await requestJson<{
+    ({ title, tiddlers, activeName } = await requestJson<{
       title?: string;
       tiddlers: MarkTiddler[];
-      openNames?: string[];
+      activeName?: string;
     }>('/api/data'));
   const tiddlerMap = new Map<string, MarkTiddler>();
   tiddlers.forEach((item) => {
     tiddlerMap.set(item.name.toLowerCase(), item);
-    if (item.id) tiddlerMap.set(item.id, item);
+    if (item.frontmatter.id) tiddlerMap.set(item.frontmatter.id, item);
   });
   if (title) store.title = title;
   store.tiddlers = tiddlerMap;
-  store.openNames = openNames || [];
+  store.activeName = activeName;
 }
+
+export function getTiddlerByUrl(search: string) {
+  const query = new URLSearchParams(search);
+  const p = query.get('p');
+  return p && store.tiddlers.get(p);
+}
+
+export function checkUrl() {
+  const tiddler = getTiddlerByUrl(window.location.search);
+  store.activeName = tiddler?.name.toLowerCase();
+}
+
+window.addEventListener('popstate', checkUrl);
 
 export function openTiddler(item: MarkTiddler) {
   const name = item.name.toLowerCase();
-  const index = store.openNames.indexOf(name);
-  if (index < 0) {
-    store.openNames = [name, ...store.openNames];
-  }
-}
-
-export function closeTiddler(item: MarkTiddler) {
-  const itemName = item.name.toLowerCase();
-  store.openNames = store.openNames.filter((name) => name !== itemName);
+  history.pushState({}, '', `?p=${encodeURIComponent(name)}`);
+  checkUrl();
 }
 
 export function fuzzySearch(keyword: string, data: string) {

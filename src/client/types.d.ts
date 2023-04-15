@@ -6,7 +6,7 @@ declare global {
     marktiddly?: {
       title?: string;
       tiddlers?: MarkTiddler[];
-      openNames?: string[];
+      activeName?: string;
     };
   }
 }

@@ -1,5 +1,5 @@
 import { readFile } from 'fs/promises';
-import { join } from 'path';
+import { dirname, join } from 'path';
 import { globby } from 'globby';
 import yaml from 'js-yaml';
 import { getMd } from './remarkable';
@@ -13,7 +13,7 @@ export async function loadFiles({ cwd, ssr }: { cwd: string; ssr: boolean }) {
   if (ssr) {
     let pathFrom = '';
     const md = getMd((pathTo) => {
-      const path = join(pathFrom, pathTo);
+      const path = join(dirname(pathFrom), pathTo);
       return data.find((tiddler) => tiddler.path === path)?.name;
     });
     data.forEach((tiddler) => {

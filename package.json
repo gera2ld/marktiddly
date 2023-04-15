@@ -18,10 +18,8 @@
     "prepare": "husky install",
     "prepublishOnly": "run-s build"
   },
-  "module": "dist/index.mjs",
   "files": [
-    "dist",
-    "types"
+    "dist"
   ],
   "engines": {
     "node": ">=16"
@@ -30,7 +28,6 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "typings": "types/index.d.ts",
   "dependencies": {
     "@babel/runtime": "^7.21.0",
     "@twind/core": "^1.1.3",

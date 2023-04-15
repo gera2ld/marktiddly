@@ -1,88 +1,50 @@
 <template>
-  <div class="flex mx-auto max-w-screen-xl h-screen">
-    <main class="flex-1 min-w-0 overflow-y-auto p-4">
-      <div class="relative min-h-[90vh]">
+  <div class="mx-auto max-w-screen-xl h-screen relative">
+    <div
+      class="md:hidden fixed inset-0 bg-gray-500 opacity-50 z-10"
+      v-if="refSide"
+      @click="refSide = false"
+    ></div>
+    <SideBar
+      class="translate-x-[-100%] md:translate-x-0 z-10 transition-transform ease-in duration-300"
+      :class="{ 'translate-x-0': refSide }"
+      @open="refSide = false"
+    />
+    <main class="md:ml-64 p-4">
+      <div class="relative min-h-[90vh] z-0">
         <TransitionGroup name="tiddler">
           <Tiddler
             v-if="activeTiddler"
             :key="activeTiddler.name"
             :tiddler="activeTiddler"
             @link="handleLink"
-          />
+          >
+            <template #before>
+              <div
+                class="md:hidden mr-2 w-4 h-4 cursor-pointer fill-current"
+                @click="refSide = true"
+              >
+                <svg viewBox="0 0 16 16" class="w-full h-full">
+                  <path d="M2 2v2h12v-2zM2 7v2h12v-2zM2 12v2h12v-2z" />
+                </svg>
+              </div>
+            </template>
+          </Tiddler>
         </TransitionGroup>
       </div>
-      <div class="text-center">
-        Powered by
-        <a
-          href="https://github.com/gera2ld/marktiddly"
-          rel="noopener noreferrer"
-        >
-          MarkTiddly
-        </a>
-        ❤️
-      </div>
+      <Footer />
     </main>
-    <aside class="w-64 flex flex-col p-4">
-      <div class="flex mb-2 text-xl text-orange-400" v-text="store.title"></div>
-      <input
-        class="block w-full bg-transparent border-b border-gray(300 dark:700) px-2"
-        type="search"
-        v-model="keyword"
-        placeholder="Search your tiddlers here"
-      />
-      <div
-        class="flex-1 min-h-0 overflow-x-hidden overflow-y-auto text-sm mb-4"
-      >
-        <template
-          v-for="[group, groupTitle] in [
-            ['title', 'Title Matches'],
-            ['content', 'Content Matches'],
-          ]"
-        >
-          <template v-if="matches[group].length">
-            <div
-              class="sticky top-0 bottom-0 bg(gray-100 dark:gray-900) px-2 py-1 text(gray-600 dark:gray-400)"
-              v-text="`${groupTitle} (${matches[group].length})`"
-            ></div>
-            <ul>
-              <li v-for="item in matches[group]" @click="openTiddler(item)">
-                <a
-                  class="block px-2 py-1 hover:bg(blue-100 dark:blue-700) hover:text(gray-600 dark:black)"
-                  :href="`#${item.name}`"
-                  @click.prevent
-                  v-text="item.frontmatter?.title || item.name"
-                ></a>
-              </li>
-            </ul>
-          </template>
-        </template>
-      </div>
-    </aside>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
-import { debounce } from 'lodash-es';
-import {
-  store,
-  matches,
-  activeTiddler,
-  openTiddler,
-  loadTiddlers,
-  checkUrl,
-} from './util';
+import { ref } from 'vue';
+import { activeTiddler, loadTiddlers, checkUrl } from './util';
 import Tiddler from './tiddler.vue';
+import SideBar from './side-bar.vue';
+import Footer from './footer.vue';
 
-const keyword = ref(store.keyword);
-
-watch(
-  keyword,
-  debounce((keyword: string) => {
-    store.keyword = keyword;
-  }, 200)
-);
-
+const refSide = ref(false);
 loadTiddlers();
 
 function handleLink(link: string) {
@@ -99,7 +61,7 @@ function handleLink(link: string) {
 
 .tiddler-leave-to {
   position: absolute;
-  transform: translateX(-100%);
+  transform: translateX(100%);
   opacity: 0;
 }
 

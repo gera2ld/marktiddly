@@ -1,0 +1,63 @@
+<template>
+  <aside
+    class="fixed w-64 top-0 bottom-0 flex flex-col p-4 bg(white dark:gray-800)"
+  >
+    <div class="flex mb-2 text-xl text-orange-400" v-text="store.title"></div>
+    <input
+      class="block w-full bg-transparent border-b border-gray(300 dark:700) px-2"
+      type="search"
+      v-model="keyword"
+      placeholder="Search your tiddlers here"
+    />
+    <div class="flex-1 min-h-0 overflow-x-hidden overflow-y-auto text-sm mb-4">
+      <template
+        v-for="[group, groupTitle] in [
+          ['title', 'Title Matches'],
+          ['content', 'Content Matches'],
+        ]"
+      >
+        <template v-if="matches[group].length">
+          <div
+            class="sticky top-0 bottom-0 bg(gray-100 dark:gray-900) px-2 py-1 text(gray-600 dark:gray-400)"
+            v-text="`${groupTitle} (${matches[group].length})`"
+          ></div>
+          <ul>
+            <li v-for="item in matches[group]" @click="handleOpen(item)">
+              <a
+                class="block px-2 py-1 hover:bg(blue-100 dark:blue-700) hover:text(gray-600 dark:black)"
+                :href="`#${item.name}`"
+                @click.prevent
+                v-text="item.frontmatter?.title || item.name"
+              ></a>
+            </li>
+          </ul>
+        </template>
+      </template>
+    </div>
+  </aside>
+</template>
+
+<script lang="ts" setup>
+import { debounce } from 'lodash-es';
+import { ref, watch } from 'vue';
+import { store, matches, openTiddler } from './util';
+import { MarkTiddler } from '../common/types';
+
+const emit = defineEmits<{
+  (event: 'open', tiddler: MarkTiddler): void;
+}>();
+
+const keyword = ref(store.keyword);
+
+watch(
+  keyword,
+  debounce((keyword: string) => {
+    store.keyword = keyword;
+  }, 200)
+);
+
+function handleOpen(tiddler: MarkTiddler) {
+  openTiddler(tiddler);
+  emit('open', tiddler);
+}
+</script>

@@ -1,6 +1,7 @@
 <template>
   <div ref="el" class="rounded border border-gray(300 dark:700) mb-4">
-    <div class="flex px-4 py-2 border-b border-gray(300 dark:700)">
+    <div class="flex items-center px-4 py-2 border-b border-gray(300 dark:700)">
+      <slot name="before"></slot>
       <div class="flex-1 font-bold" v-text="title"></div>
       <div class="cursor-pointer" v-if="closable" @click="emit('close')">
         &cross;

@@ -16,14 +16,6 @@ const rollupConfig = [
     plugins: getRollupPlugins({
       esm: true,
       minimize: false,
-      aliases: {
-        entries: [
-          {
-            find: resolve('src/common/remarkable/index.ts'),
-            replacement: resolve('src/common/remarkable/node.ts'),
-          },
-        ],
-      },
     }),
     external: getRollupExternal(Object.keys(pkg.dependencies)),
     output: {
@@ -38,6 +30,7 @@ const rollupConfig = [
       vue(),
       ...getRollupPlugins({
         esm: true,
+        extensions: ['.browser.ts', ...defaultOptions.extensions],
       }),
       isProd && terser(),
       !isProd && browserSyncPlugin({ dist: DIST }),

@@ -1,7 +1,9 @@
-import { Remarkable } from 'remarkable';
+import type { Remarkable } from 'remarkable';
 
-export function getMd(resolve: (path: string) => string) {
-  const md = new Remarkable();
+export function setLinkParser(
+  md: Remarkable,
+  resolve: (path: string) => string
+) {
   md.core.ruler.before(
     'inline',
     'rel-link',
@@ -41,5 +43,4 @@ export function getMd(resolve: (path: string) => string) {
     },
     {}
   );
-  return md;
 }

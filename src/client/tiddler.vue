@@ -19,7 +19,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { MarkTiddler } from '../common/types';
-import { getMd } from '../common/remarkable';
+import { getMdBrowser } from '../common/remarkable/browser';
 import { highlight, getTiddlerByUrl, store } from './util';
 
 const { tiddler, closable = false } = defineProps<{
@@ -65,9 +65,9 @@ function checkLinks() {
   });
 }
 
-onMounted(() => {
+onMounted(async () => {
   if (tiddler.html == null) {
-    const md = getMd(() => '');
+    const md = await getMdBrowser(() => '');
     tiddler.html = md.render(tiddler.content);
   }
   if (el.value && !tiddler.ssr) highlight(el.value);

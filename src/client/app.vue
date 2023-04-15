@@ -5,44 +5,39 @@
       v-if="refSide"
       @click="refSide = false"
     ></div>
-    <SideBar
-      class="translate-x-[-100%] md:translate-x-0 z-10 transition-transform ease-in duration-300"
-      :class="{ 'translate-x-0': refSide }"
-      @open="refSide = false"
-    />
-    <main class="md:ml-64 p-4">
-      <div class="relative min-h-[90vh] z-0">
+    <SideBar :show="refSide" @open="refSide = false" />
+    <main class="md:ml-64 md:p-4">
+      <div
+        class="md:hidden flex items-center h-12 px-4 sticky top-0 z-10 bg(white dark:gray-800)"
+        @click="refSide = !refSide"
+      >
+        <svg
+          viewBox="0 0 16 16"
+          class="mr-2 w-4 h-4 cursor-pointer fill-current"
+        >
+          <path d="M2 2v2h12v-2zM2 7v2h12v-2zM2 12v2h12v-2z" />
+        </svg>
+        <span class="ml-2 text-orange-400" v-text="store.title"></span>
+      </div>
+      <div class="relative z-0">
         <TransitionGroup name="tiddler">
           <Tiddler
             v-if="activeTiddler"
             :key="activeTiddler.name"
             :tiddler="activeTiddler"
             @link="handleLink"
-          >
-            <template #before>
-              <div
-                class="md:hidden mr-2 w-4 h-4 cursor-pointer fill-current"
-                @click="refSide = true"
-              >
-                <svg viewBox="0 0 16 16" class="w-full h-full">
-                  <path d="M2 2v2h12v-2zM2 7v2h12v-2zM2 12v2h12v-2z" />
-                </svg>
-              </div>
-            </template>
-          </Tiddler>
+          />
         </TransitionGroup>
       </div>
-      <Footer />
     </main>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { activeTiddler, loadTiddlers, checkUrl } from './util';
+import { activeTiddler, loadTiddlers, checkUrl, store } from './util';
 import Tiddler from './tiddler.vue';
 import SideBar from './side-bar.vue';
-import Footer from './footer.vue';
 
 const refSide = ref(false);
 loadTiddlers();

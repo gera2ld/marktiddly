@@ -1,8 +1,12 @@
 <template>
   <aside
-    class="fixed w-64 top-0 bottom-0 flex flex-col p-4 bg(white dark:gray-800)"
+    class="fixed w-64 top(12 md:!0) bottom-0 flex flex-col p-4 z-10 bg(white dark:gray-800) translate-x([-100%] md:0) transition-transform ease-in duration-300"
+    :class="{ 'translate-x-0': show }"
   >
-    <div class="flex mb-2 text-xl text-orange-400" v-text="store.title"></div>
+    <div
+      class="flex mb-2 text-xl text-orange-400 hidden md:block"
+      v-text="store.title"
+    ></div>
     <input
       class="block w-full bg-transparent border-b border-gray(300 dark:700) px-2"
       type="search"
@@ -34,6 +38,7 @@
         </template>
       </template>
     </div>
+    <Footer />
   </aside>
 </template>
 
@@ -42,7 +47,11 @@ import { debounce } from 'lodash-es';
 import { ref, watch } from 'vue';
 import { store, matches, openTiddler } from './util';
 import { MarkTiddler } from '../common/types';
+import Footer from './footer.vue';
 
+defineProps<{
+  show?: boolean;
+}>();
 const emit = defineEmits<{
   (event: 'open', tiddler: MarkTiddler): void;
 }>();

@@ -49,7 +49,7 @@ async function loadFile({
 }
 
 function parseMetadata(content: string) {
-  let frontmatter: MarkTiddlerFrontmatter = {};
+  let frontmatter: MarkTiddlerFrontmatter;
   const endOffset = content.startsWith('---\n')
     ? content.indexOf('\n---\n')
     : -1;
@@ -63,7 +63,9 @@ function parseMetadata(content: string) {
     const offset = endOffset + 5;
     content = content.slice(offset).trim();
   }
-  frontmatter ||= {};
+  frontmatter ||= {
+    title: '',
+  };
   if (!frontmatter.tags) {
     frontmatter.tags = [...content.matchAll(/(?:^|\s)#([\w\-_]+)/g)].map(
       (matches) => matches[1]

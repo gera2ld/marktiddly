@@ -15,19 +15,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '16'
-      - uses: pnpm/action-setup@v2.0.1
+      - uses: pnpm/action-setup@v2
         with:
-          version: 7
+          version: 8
       - name: Build
         run: |
           pnpm i && pnpm build
           mkdir output
           node . generate --cwd demo -o output/index.html --default-open marktiddly --title "Try MarkTiddly!"
-          echo '<script defer data-domain="gera2ld.github.io" src="https://pl.gerald.win/js/script.js"></script>' >> output/index.html
+          echo '<script defer src="https://shy.gerald.win/ingress/d29f0b5c-0b50-4df0-8ce6-74bfd6a63287/script.js"></script>' >> output/index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

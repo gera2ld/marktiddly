@@ -41,9 +41,11 @@ const handleClick = (e: MouseEvent) => {
   const a = (e.target as HTMLElement).closest('a');
   if (a) {
     const href = a.getAttribute('href');
-    if (href && getTiddlerByUrl(href)) {
+    if (href?.startsWith('?')) {
       e.preventDefault();
-      emit('link', href);
+      if (getTiddlerByUrl(href)) {
+        emit('link', href);
+      }
     }
   }
 };

@@ -65,7 +65,7 @@ function parseMetadata(content: string) {
   }
   frontmatter ||= {};
   if (!frontmatter.tags) {
-    frontmatter.tags = [...content.matchAll(/(?:^|\s)#([\S+])/g)].map(
+    frontmatter.tags = [...content.matchAll(/(?:^|\s)#([\w\-_]+)/g)].map(
       (matches) => matches[1]
     );
   }

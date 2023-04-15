@@ -1,14 +1,6 @@
-import { MarkTiddler } from '../common/types';
+import { MarkTiddler } from '../../common/types';
 import { store } from './store';
-
-export * from './prism';
-
-async function requestJson<T>(url: string) {
-  const res = await fetch(url);
-  const data = await res.json();
-  if (!res.ok) throw { status: res.status, data };
-  return data as T;
-}
+import { getTiddlerNameByUrl, requestJson } from './util';
 
 export async function loadTiddlers() {
   let { title, tiddlers, activeName } = window.marktiddly || {};
@@ -25,17 +17,16 @@ export async function loadTiddlers() {
   });
   if (title) store.title = title;
   store.tiddlers = tiddlerMap;
-  store.activeName = activeName;
+  store.activeName ||= activeName;
 }
 
-export function getTiddlerByUrl(search: string) {
-  const query = new URLSearchParams(search);
-  const p = query.get('p');
+export function getTiddlerByUrl(search?: string) {
+  const p = getTiddlerNameByUrl(search);
   return p && store.tiddlers.get(p);
 }
 
 export function checkUrl() {
-  const tiddler = getTiddlerByUrl(window.location.search);
+  const tiddler = getTiddlerByUrl();
   store.activeName = tiddler?.name.toLowerCase();
 }
 
@@ -45,20 +36,4 @@ export function openTiddler(item: MarkTiddler) {
   const name = item.name.toLowerCase();
   history.pushState({}, '', `?p=${encodeURIComponent(name)}`);
   checkUrl();
-}
-
-export function fuzzySearch(keyword: string, data: string) {
-  const result: number[] = [];
-  let j = 0;
-  for (
-    let i = 0;
-    i < keyword.length && keyword.length - i <= data.length - j;
-    i += 1
-  ) {
-    j = data.indexOf(keyword[i], j);
-    if (j < 0) break;
-    result.push(j);
-    j += 1;
-  }
-  return result.length === keyword.length ? result : undefined;
 }

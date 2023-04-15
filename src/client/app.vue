@@ -64,8 +64,14 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { debounce } from 'lodash-es';
-import { store, matches, activeTiddler } from './store';
-import { openTiddler, loadTiddlers, checkUrl } from './util';
+import {
+  store,
+  matches,
+  activeTiddler,
+  openTiddler,
+  loadTiddlers,
+  checkUrl,
+} from './util';
 import Tiddler from './tiddler.vue';
 
 const keyword = ref(store.keyword);
@@ -77,7 +83,7 @@ watch(
   }, 200)
 );
 
-loadTiddlers().then(checkUrl);
+loadTiddlers();
 
 function handleLink(link: string) {
   history.pushState({}, '', link);
@@ -99,6 +105,6 @@ function handleLink(link: string) {
 
 .tiddler-enter-active,
 .tiddler-leave-active {
-  transition: all 1s ease;
+  transition: all 0.5s ease;
 }
 </style>

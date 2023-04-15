@@ -1,6 +1,6 @@
 import { computed, reactive } from 'vue';
-import { MarkTiddler } from '../common/types';
-import { fuzzySearch } from './util';
+import { MarkTiddler } from '../../common/types';
+import { fuzzySearch, getTiddlerNameByUrl } from './util';
 
 export const store = reactive<{
   keyword: string;
@@ -11,7 +11,7 @@ export const store = reactive<{
   keyword: '',
   title: window.marktiddly?.title || 'MarkTiddly',
   tiddlers: new Map(),
-  activeName: window.marktiddly?.activeName,
+  activeName: getTiddlerNameByUrl(),
 });
 
 export const matches = computed(() => {

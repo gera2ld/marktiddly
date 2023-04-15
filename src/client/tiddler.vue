@@ -19,8 +19,7 @@
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { MarkTiddler } from '../common/types';
 import { getMd } from '../common/remarkable';
-import { highlight, getTiddlerByUrl } from './util';
-import { store } from './store';
+import { highlight, getTiddlerByUrl, store } from './util';
 
 const { tiddler, closable = false } = defineProps<{
   tiddler: MarkTiddler;

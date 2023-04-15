@@ -29,9 +29,9 @@ export function getMd(resolve: (path: string) => string) {
                 }
               } else {
                 [label, name] = g3.split('|');
-                name ||= label;
+                name ||= label.toLowerCase();
               }
-              path ||= `?p=${encodeURIComponent(name.toLowerCase())}`;
+              path ||= `?p=${encodeURIComponent(name)}`;
               return `[${label}](${path})`;
             }
           );

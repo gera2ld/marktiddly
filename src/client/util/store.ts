@@ -21,7 +21,7 @@ export const matches = computed(() => {
   const contentMatches: MarkTiddler[] = [];
   if (keyword) {
     Array.from(store.tiddlers.values()).forEach((item) => {
-      const title = (item.frontmatter?.title || item.name).toLowerCase();
+      const title = item.frontmatter?.title?.toLowerCase() || item.name;
       if (title.includes(keyword)) {
         titleMatches.push(item);
         return;

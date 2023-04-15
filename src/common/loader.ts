@@ -37,9 +37,11 @@ async function loadFile({
   const { frontmatter, content } = parseMetadata(
     await readFile(join(cwd, file), 'utf8')
   );
+  const name = file.replace(/\.md$/, '');
+  frontmatter.title ||= name;
   return {
     path: file,
-    name: file.replace(/\.md$/, ''),
+    name: name.toLowerCase(),
     frontmatter,
     content,
     ssr,

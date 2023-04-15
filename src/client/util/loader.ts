@@ -12,7 +12,7 @@ export async function loadTiddlers() {
     }>('/api/data'));
   const tiddlerMap = new Map<string, MarkTiddler>();
   tiddlers.forEach((item) => {
-    tiddlerMap.set(item.name.toLowerCase(), item);
+    tiddlerMap.set(item.name, item);
     if (item.frontmatter.id) tiddlerMap.set(item.frontmatter.id, item);
   });
   if (title) store.title = title;
@@ -26,8 +26,8 @@ export function getTiddlerByUrl(search?: string) {
 }
 
 export function checkUrl() {
-  const tiddler = getTiddlerByUrl();
-  store.activeName = tiddler?.name.toLowerCase();
+  const name = getTiddlerNameByUrl();
+  store.activeName = name || window.marktiddly?.activeName;
 }
 
 window.addEventListener('popstate', checkUrl);

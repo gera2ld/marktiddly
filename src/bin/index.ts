@@ -14,6 +14,7 @@ program
   .description('Generate a static HTML with everything')
   .option('--cwd <path>', 'Specify a current working directory', '.')
   .option('--ssr', 'Whether to enable server side Markdown rendering', true)
+  .option('--use-cdn', 'Whether to load client.js from CDN', false)
   .option('--title <title>', 'Set title of this static site', 'MarkTiddly')
   .option(
     '--default-open <name>',

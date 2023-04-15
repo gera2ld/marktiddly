@@ -1,11 +1,11 @@
 import { Remarkable } from 'remarkable';
 import Prism from 'prismjs';
 import loadLanguages from 'prismjs/components/index.js';
-import { setLinkParser } from './base';
+import { linkPlugin } from './base';
 
-export function getMd(resolve: (path: string) => string) {
+export function getMd(resolve?: (path: string) => string) {
   const md = new Remarkable();
-  setLinkParser(md, resolve);
+  md.use(linkPlugin, { resolve });
   md.set({
     highlight: (str: string, lang: string) => {
       let grammar = Prism.languages[lang];

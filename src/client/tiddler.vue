@@ -67,7 +67,7 @@ function checkLinks() {
 
 onMounted(async () => {
   if (tiddler.html == null) {
-    const md = await getMdBrowser(() => '');
+    const md = await getMdBrowser();
     tiddler.html = md.render(tiddler.content);
   }
   if (el.value && !tiddler.ssr) highlight(el.value);

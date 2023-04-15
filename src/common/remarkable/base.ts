@@ -1,8 +1,10 @@
 import type { Remarkable } from 'remarkable';
 
-export function setLinkParser(
+export function linkPlugin(
   md: Remarkable,
-  resolve: (path: string) => string
+  options?: {
+    resolve?: (path: string) => string;
+  }
 ) {
   md.core.ruler.before(
     'inline',
@@ -25,8 +27,8 @@ export function setLinkParser(
                 label = g1;
                 if (/^\[\[.*?\]\]$/.test(g2)) {
                   name = g2.slice(2, -2);
-                } else {
-                  name = resolve(g2);
+                } else if (options?.resolve) {
+                  name = options.resolve(g2);
                   if (!name) path = g2;
                 }
               } else {
@@ -36,6 +38,10 @@ export function setLinkParser(
               path ||= `?p=${encodeURIComponent(name)}`;
               return `[${label}](${path})`;
             }
+          );
+          token.content = token.content.replace(
+            /(^|\s)(https?:\/\/\S+)/,
+            '$1<$2>'
           );
         }
       }

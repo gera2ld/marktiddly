@@ -8,7 +8,7 @@
     <SideBar :show="refSide" @open="refSide = false" />
     <main class="md:ml-64 md:p-4">
       <div
-        class="md:hidden flex items-center h-12 px-4 sticky top-0 z-10 bg(white dark:gray-800)"
+        class="md:hidden flex items-center h-12 px-4 sticky top-0 z-10 bg-white dark:bg-gray-800"
         @click="refSide = !refSide"
       >
         <svg

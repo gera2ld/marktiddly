@@ -1,6 +1,11 @@
 <template>
-  <div ref="el" class="md:(rounded border) border-gray(300 dark:700) mb-4">
-    <div class="flex items-center px-4 py-2 border-b border-gray(300 dark:700)">
+  <div
+    ref="el"
+    class="md:rounded md:border border-gray-300 dark:border-gray-700 mb-4"
+  >
+    <div
+      class="flex items-center px-4 py-2 border-b border-gray-300 dark:border-gray-700"
+    >
       <div
         class="flex-1 font-bold text-center md:text-left"
         v-text="tiddler.frontmatter.title"

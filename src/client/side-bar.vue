@@ -1,14 +1,14 @@
 <template>
   <aside
-    class="fixed w-64 top(12 md:!0) bottom-0 flex flex-col p-4 z-10 bg(white dark:gray-800) translate-x([-100%] md:0) transition-transform ease-in duration-300"
-    :class="{ 'translate-x-0': show }"
+    class="fixed w-64 top-12 md:top-0 bottom-0 flex flex-col p-4 z-10 bg-white dark:bg-gray-800 transition-transform ease-in duration-300 md:translate-x-0"
+    :class="show ? '' : 'translate-x-[-100%]'"
   >
     <div
       class="flex mb-2 text-xl text-orange-400 hidden md:block"
       v-text="store.title"
     ></div>
     <input
-      class="block w-full bg-transparent border-b border-gray(300 dark:700) px-2"
+      class="block w-full bg-transparent border-b border-gray-300 dark:border-gray-700 px-2"
       type="search"
       v-model="keyword"
       placeholder="Search your tiddlers here"
@@ -22,13 +22,13 @@
       >
         <template v-if="matches[group].length">
           <div
-            class="sticky top-0 bottom-0 bg(gray-100 dark:gray-900) px-2 py-1 text(gray-600 dark:gray-400)"
+            class="sticky top-0 bottom-0 bg-gray-100 dark:bg-gray-900 px-2 py-1 text-gray-600 dark:text-gray-400"
             v-text="`${groupTitle} (${matches[group].length})`"
           ></div>
           <ul>
             <li v-for="item in matches[group]" @click="handleOpen(item)">
               <a
-                class="block px-2 py-1 hover:bg(blue-100 dark:blue-700) hover:text(gray-600 dark:black)"
+                class="block px-2 py-1 hover:bg-blue-100 hover:dark:bg-blue-700 hover:text-gray-600 hover:dark:text-black"
                 :href="`#${item.name}`"
                 @click.prevent
                 v-text="item.frontmatter?.title || item.name"

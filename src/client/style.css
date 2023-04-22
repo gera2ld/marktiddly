@@ -14,6 +14,14 @@ ul {
   @apply list-disc;
 }
 
+input {
+  @apply bg-transparent border-b border-gray-300 dark:border-gray-600 px-2;
+}
+
+button {
+  @apply border border-gray-300 dark:border-gray-600 px-2 hover:bg-gray-200 hover:dark:bg-gray-800;
+}
+
 .markdown-body a.non-existent {
   @apply text-red-400 cursor-not-allowed;
 }

@@ -1,4 +1,9 @@
 <template>
+  <div
+    class="md:hidden fixed inset-0 bg-gray-500 opacity-50 z-10"
+    v-if="show"
+    @click="emit('close')"
+  ></div>
   <aside
     class="fixed w-64 top-12 md:top-0 bottom-0 flex flex-col p-4 z-10 bg-white dark:bg-gray-800 transition-transform ease-in duration-300 md:translate-x-0"
     :class="show ? '' : 'translate-x-[-100%]'"
@@ -8,7 +13,7 @@
       v-text="store.title"
     ></div>
     <input
-      class="block w-full bg-transparent border-b border-gray-300 dark:border-gray-700 px-2"
+      class="block w-full"
       type="search"
       v-model="keyword"
       placeholder="Search your tiddlers here"
@@ -53,7 +58,7 @@ defineProps<{
   show?: boolean;
 }>();
 const emit = defineEmits<{
-  (event: 'open', tiddler: MarkTiddler): void;
+  (event: 'close'): void;
 }>();
 
 const keyword = ref(store.keyword);
@@ -67,6 +72,6 @@ watch(
 
 function handleOpen(tiddler: MarkTiddler) {
   openTiddler(tiddler);
-  emit('open', tiddler);
+  emit('close');
 }
 </script>

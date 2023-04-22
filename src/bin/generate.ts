@@ -2,6 +2,7 @@ import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { readFile } from 'fs/promises';
 import { loadFiles } from '../common/loader';
+import { packData } from './util';
 
 const dist = dirname(fileURLToPath(import.meta.url));
 const version = 'process.env.VERSION';
@@ -15,6 +16,8 @@ export async function generate(options: {
   cwd: string;
   ssr: boolean;
   useCdn: boolean;
+  pako: boolean;
+  pgp?: string;
   title?: string;
   defaultOpen?: string;
   favicon?: string;
@@ -45,12 +48,16 @@ export async function generate(options: {
       JSON.stringify(manifest)
     )}"`
   );
+  const rawData = { title, tiddlers, activeName };
+  let data: { meta?: string; data: any } = await packData(
+    JSON.stringify(rawData),
+    options
+  );
+  if (!data.meta) data = { data: rawData };
   html = html.replace(/<script(\b[^>]*?) src="client.js"><\/script>/, (_, g) =>
     [
       '<script>',
-      escapeScript(
-        'window.marktiddly=' + JSON.stringify({ title, tiddlers, activeName })
-      ),
+      escapeScript('window.marktiddly=' + JSON.stringify(data)),
       '</script>',
       ...(useCdn
         ? [`<script${g} src="${cdnPrefix}/dist/client.js"></script>`]

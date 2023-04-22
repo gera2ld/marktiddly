@@ -7,9 +7,13 @@ export const store = reactive<{
   title: string;
   tiddlers: Map<string, MarkTiddler>;
   activeName?: string;
+  defaultName?: string;
+  password?: {
+    message?: string;
+  };
 }>({
   keyword: '',
-  title: window.marktiddly?.title || 'MarkTiddly',
+  title: 'MarkTiddly',
   tiddlers: new Map(),
   activeName: getTiddlerNameByUrl(),
 });

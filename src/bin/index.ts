@@ -13,8 +13,10 @@ program
   .command('generate')
   .description('Generate a static HTML with everything')
   .option('--cwd <path>', 'Specify a current working directory', '.')
-  .option('--ssr', 'Whether to enable server side Markdown rendering', true)
-  .option('--use-cdn', 'Whether to load client.js from CDN', false)
+  .option('--no-ssr', 'Disable server side Markdown rendering')
+  .option('--use-cdn', 'Whether to load client.js from CDN')
+  .option('--no-pako', 'Do not compress data with pako')
+  .option('--pgp <password>', 'Encrypt data with a password')
   .option('--title <title>', 'Set title of this static site', 'MarkTiddly')
   .option(
     '--default-open <name>',
@@ -39,7 +41,7 @@ program
   .command('serve')
   .description('Serve the tiddlers as a website')
   .option('--cwd <path>', 'Specify a current working directory', '.')
-  .option('--ssr', 'Whether to enable server side Markdown rendering', false)
+  .option('--no-ssr', 'Disable server side Markdown rendering')
   .option('--title <title>', 'Set title of this static site', 'MarkTiddly')
   .option(
     '--default-open <name>',

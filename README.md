@@ -12,6 +12,11 @@ You can take notes in Markdown files and publish them as a single HTML file so y
 - Password protection (OpenPGP)
 - Data compression (Pako)
 
+## Demos
+
+- https://gera2ld.github.io/marktiddly/ - without encryption
+- https://gera2ld.github.io/marktiddly/encrypted - with data protected by a password
+
 ## Usage
 
 Basic usage:

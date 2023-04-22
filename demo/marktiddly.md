@@ -2,17 +2,15 @@
 title: MarkTiddly
 ---
 
-Welcome to MarkTiddly!
+Welcome to MarkTiddly! It is heavily inspired by [[TiddlyWiki]].
 
-This is a combination of [[Markdown]] and [[TiddlyWiki]]. See? Other Markdown files (or tiddlers) can easily be linked. And [[this]] is a non-existent link.
+It renders your [[Markdown]] files into a single page application which has just a single HTML file. It can be easily deployed to your server or through <https://www.drv.tw>.
 
-It allows you to render Markdown files as tiddlers in [TiddlyWiki](https://tiddlywiki.com/) and visit them in a Zettelkasten way.
+Markdown files (or tiddlers) can be easily linked to each other with relative paths or wiki links. Meanwhile non-existent links can be easily distinguished like [[this]].
 
-## Why?
+Check https://gera2ld.github.io/marktiddly/ for MarkTiddly without encryption.
 
-Because writing in Markdown is comfortable. TiddlyWiki is good at managing my notes but it doesn't have a good enough editor for writing Markdown.
-
-So I created this tool to enjoy them both. I write Markdown with [Zettlr](https://github.com/Zettlr/Zettlr) and publish them as a single HTML TiddlyWiki flavor website.
+Check https://gera2ld.github.io/marktiddly/encrypted for MarkTiddly with data protected by a password.
 
 ## Usage
 

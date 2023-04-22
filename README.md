@@ -1,17 +1,30 @@
 # MarkTiddly
 
-Render Markdown files as tiddlers in [TiddlyWiki](https://tiddlywiki.com/) and visit them in a Zettelkasten way.
+Render Markdown files as a single static page.
 
-## Why?
+You can take notes in Markdown files and publish them as a single HTML file so you can access them from anywhere.
 
-Because writing in Markdown is comfortable. TiddlyWiki is good at managing my notes but it doesn't have a good enough editor for writing Markdown.
+## Features
 
-So I created this tool to enjoy them both. I write Markdown with [Zettlr](https://github.com/Zettlr/Zettlr) and publish them as a single HTML TiddlyWiki flavor website.
+- Single HTML page
+  - Easy to deploy
+  - Portable
+- Password protection (OpenPGP)
+- Data compression (Pako)
 
 ## Usage
 
+Basic usage:
+
 ```base
 $ npx marktiddly generate --cwd my-docs -o output.html
+$ open output.html
+```
+
+Protect data with a password:
+
+```bash
+$ npx marktiddly generate --cwd my-docs -o output.html --pgp 'My Password' --pgp-hint 'Ask Mom for the password'
 $ open output.html
 ```
 

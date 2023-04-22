@@ -9,7 +9,8 @@ export const store = reactive<{
   activeName?: string;
   defaultName?: string;
   password?: {
-    message?: string;
+    hint?: string;
+    error?: string;
   };
 }>({
   keyword: '',

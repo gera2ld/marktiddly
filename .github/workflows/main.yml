@@ -27,6 +27,7 @@ jobs:
           pnpm i && pnpm build
           mkdir output
           node . generate --cwd demo -o output/index.html --default-open marktiddly --title "Try MarkTiddly!"
+          node . generate --cwd demo -o output/encrypted.html --default-open marktiddly --title "Try MarkTiddly!" --pgp 'MarkTiddly' --pgp-hint 'The password is "MarkTiddly"'
           echo '<script defer src="https://shy.gerald.win/ingress/d29f0b5c-0b50-4df0-8ce6-74bfd6a63287/script.js"></script>' >> output/index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1

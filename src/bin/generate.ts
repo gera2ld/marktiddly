@@ -18,6 +18,7 @@ export async function generate(options: {
   useCdn: boolean;
   pako: boolean;
   pgp?: string;
+  pgpHint?: string;
   title?: string;
   defaultOpen?: string;
   favicon?: string;
@@ -29,7 +30,7 @@ export async function generate(options: {
   const tiddlers = await loadFiles(options);
   const clientJs = await readFile(resolve(dist, 'client.js'), 'utf8');
   const activeName = options.defaultOpen?.toLowerCase();
-  const { title, useCdn, favicon } = options;
+  const { title, useCdn, favicon, pgpHint } = options;
   if (title) {
     html = html.replace(/<title>[^<]<*\/title>/, `<title>${title}</title>`);
     manifest.name = title;
@@ -48,7 +49,7 @@ export async function generate(options: {
       JSON.stringify(manifest)
     )}"`
   );
-  const rawData = { title, tiddlers, activeName };
+  const rawData = { tiddlers, activeName };
   let data: { meta?: string; data: any } = await packData(
     JSON.stringify(rawData),
     options
@@ -57,7 +58,14 @@ export async function generate(options: {
   html = html.replace(/<script(\b[^>]*?) src="client.js"><\/script>/, (_, g) =>
     [
       '<script>',
-      escapeScript('window.marktiddly=' + JSON.stringify(data)),
+      escapeScript(
+        'window.marktiddly=' +
+          JSON.stringify({
+            ...data,
+            title,
+            passwordHint: pgpHint,
+          })
+      ),
       '</script>',
       ...(useCdn
         ? [`<script${g} src="${cdnPrefix}/dist/client.js"></script>`]

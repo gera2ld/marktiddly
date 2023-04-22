@@ -17,6 +17,7 @@ program
   .option('--use-cdn', 'Whether to load client.js from CDN')
   .option('--no-pako', 'Do not compress data with pako')
   .option('--pgp <password>', 'Encrypt data with a password')
+  .option('--pgp-hint <hint>', 'A hint for the password')
   .option('--title <title>', 'Set title of this static site', 'MarkTiddly')
   .option(
     '--default-open <name>',

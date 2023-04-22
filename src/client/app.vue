@@ -10,7 +10,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { loadTiddlers, PasswordError, PWD_KEY, store } from './util';
+import { loadTiddlers, PWD_KEY, store } from './util';
 import SideBar from './side-bar.vue';
 import MainArea from './main-area.vue';
 import PasswordForm from './password-form.vue';
@@ -19,8 +19,9 @@ const refSide = ref(false);
 loadTiddlers();
 
 function handlePassword(password: string) {
+  if (!store.password) return;
   sessionStorage.setItem(PWD_KEY, password);
-  store.password.message = '';
+  store.password.error = '';
   loadTiddlers();
 }
 </script>

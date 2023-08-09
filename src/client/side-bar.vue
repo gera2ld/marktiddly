@@ -5,7 +5,7 @@
     @click="emit('close')"
   ></div>
   <aside
-    class="fixed w-64 top-12 md:top-0 bottom-0 flex flex-col p-4 z-10 bg-white dark:bg-gray-800 transition-transform ease-in duration-300 md:translate-x-0"
+    class="fixed w-64 top-12 md:top-0 bottom-0 flex flex-col p-4 z-10 transition-transform ease-in duration-300 md:translate-x-0"
     :class="show ? '' : 'translate-x-[-100%]'"
   >
     <div
@@ -19,12 +19,7 @@
       placeholder="Search your tiddlers here"
     />
     <div class="flex-1 min-h-0 overflow-x-hidden overflow-y-auto text-sm mb-4">
-      <template
-        v-for="[group, groupTitle] in [
-          ['title', 'Title Matches'],
-          ['content', 'Content Matches'],
-        ]"
-      >
+      <template v-for="[group, groupTitle] in groups">
         <template v-if="matches[group].length">
           <div
             class="sticky top-0 bottom-0 bg-gray-100 dark:bg-gray-900 px-2 py-1 text-gray-600 dark:text-gray-400"
@@ -60,6 +55,11 @@ defineProps<{
 const emit = defineEmits<{
   (event: 'close'): void;
 }>();
+
+const groups = [
+  ['title', 'Title Matches'],
+  ['content', 'Content Matches'],
+] as const;
 
 const keyword = ref(store.keyword);
 

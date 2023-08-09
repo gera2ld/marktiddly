@@ -67,18 +67,20 @@ export async function loadTiddlers() {
   const { tiddlers, activeName } =
     (await loadDataFromLocal()) || (await loadDataFromRemote());
   const tiddlerMap = new Map<string, MarkTiddler>();
+  const idMap = new Map<string, string>();
   tiddlers.forEach((item) => {
     tiddlerMap.set(item.name, item);
-    if (item.frontmatter.id) tiddlerMap.set(item.frontmatter.id, item);
+    if (item.frontmatter.id) idMap.set(item.frontmatter.id, item.name);
   });
-  store.tiddlers = tiddlerMap;
+  store.tiddlerMap = tiddlerMap;
+  store.tiddlerIdMap = idMap;
   store.defaultName = activeName;
   store.activeName ||= activeName;
 }
 
 export function getTiddlerByUrl(search?: string) {
   const p = getTiddlerNameByUrl(search);
-  return p && store.tiddlers.get(p);
+  return p && store.tiddlerMap.get(p);
 }
 
 export function checkUrl() {

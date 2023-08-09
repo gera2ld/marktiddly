@@ -1,7 +1,5 @@
-import { resolve } from 'path';
 import plaid from '@gera2ld/plaid';
 import vue from 'rollup-plugin-vue';
-import { terser } from 'rollup-plugin-terser';
 import { browserSyncPlugin } from './scripts/browser-sync.js';
 import pkg from './package.json' assert { type: 'json' };
 
@@ -31,8 +29,8 @@ const rollupConfig = [
       ...getRollupPlugins({
         esm: true,
         extensions: ['.browser.ts', ...defaultOptions.extensions],
+        minimize: isProd,
       }),
-      isProd && terser(),
       !isProd && browserSyncPlugin({ dist: DIST }),
     ].filter(Boolean),
     output: {

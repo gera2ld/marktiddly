@@ -9,7 +9,7 @@ const { defaultOptions } = plaid;
 const DIST = defaultOptions.distDir;
 
 async function loadConfig() {
-  const { default: rollupConfig } = await import('./rollup.conf.js');
+  const { default: rollupConfig } = await import('./rollup.config.js');
   return rollupConfig;
 }
 
@@ -34,22 +34,32 @@ async function buildJs() {
 async function watchJs() {
   const rollupConfig = await loadConfig();
   const watcher = watch(rollupConfig);
-  let serve = () => {
-    serve = null;
-    childProcess.spawn('node', ['.', 'serve', '--cwd', 'demo'], {
-      stdio: 'inherit',
+  return new Promise((resolve, reject) => {
+    watcher.on('event', (e) => {
+      if (e.code === 'ERROR') {
+        console.error();
+        console.error(`${e.error}`);
+        console.error();
+        reject(e);
+      } else if (e.code === 'BUNDLE_END') {
+        log(`Compilation success after ${e.duration}ms`);
+        resolve();
+      }
     });
-  };
-  watcher.on('event', (e) => {
-    if (e.code === 'ERROR') {
-      console.error();
-      console.error(`${e.error}`);
-      console.error();
-    } else if (e.code === 'BUNDLE_END') {
-      log(`Compilation success after ${e.duration}ms`);
-      serve?.();
-    }
   });
+}
+
+let loaded = false;
+function serveDemo() {
+  if (loaded) return;
+  loaded = true;
+  childProcess.spawn(
+    'node',
+    ['.', 'serve', '--cwd', 'demo', '-p', process.env.PORT || 4000],
+    {
+      stdio: 'inherit',
+    }
+  );
 }
 
 function wrapError(handle) {
@@ -63,3 +73,4 @@ function wrapError(handle) {
 
 export const build = gulp.series([copy, buildJs]);
 export const dev = gulp.series([copy, watchJs]);
+export const demo = gulp.series([dev, serveDemo]);

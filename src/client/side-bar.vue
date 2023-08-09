@@ -34,7 +34,7 @@
             <li v-for="item in matches[group]" @click="handleOpen(item)">
               <a
                 class="block px-2 py-1 hover:bg-blue-100 hover:dark:bg-blue-700 hover:text-gray-600 hover:dark:text-black"
-                :href="`#${item.name}`"
+                :href="`?p=${encodeURIComponent(item.name)}`"
                 @click.prevent
                 v-text="item.frontmatter?.title || item.name"
               ></a>

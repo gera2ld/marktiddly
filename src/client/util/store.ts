@@ -5,7 +5,8 @@ import { fuzzySearch, getTiddlerNameByUrl } from './util';
 export const store = reactive<{
   keyword: string;
   title: string;
-  tiddlers: Map<string, MarkTiddler>;
+  tiddlerMap: Map<string, MarkTiddler>;
+  tiddlerIdMap: Map<string, string>;
   activeName?: string;
   defaultName?: string;
   password?: {
@@ -15,7 +16,8 @@ export const store = reactive<{
 }>({
   keyword: '',
   title: 'MarkTiddly',
-  tiddlers: new Map(),
+  tiddlerMap: new Map(),
+  tiddlerIdMap: new Map(),
   activeName: getTiddlerNameByUrl(),
 });
 
@@ -25,7 +27,7 @@ export const matches = computed(() => {
   const titleFuzzyMatches: MarkTiddler[] = [];
   const contentMatches: MarkTiddler[] = [];
   if (keyword) {
-    Array.from(store.tiddlers.values()).forEach((item) => {
+    Array.from(store.tiddlerMap.values()).forEach((item) => {
       const title = item.frontmatter?.title?.toLowerCase() || item.name;
       if (title.includes(keyword)) {
         titleMatches.push(item);
@@ -48,5 +50,5 @@ export const matches = computed(() => {
 });
 
 export const activeTiddler = computed(() =>
-  store.tiddlers.get(store.activeName)
+  store.tiddlerMap.get(store.activeName)
 );

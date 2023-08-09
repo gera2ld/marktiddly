@@ -58,8 +58,9 @@ function checkLinks() {
   body.value?.querySelectorAll('a').forEach((a) => {
     const href = a.getAttribute('href');
     if (href?.startsWith('?')) {
-      const p = new URLSearchParams(href).get('p');
-      const linked = p && store.tiddlers.get(p);
+      let p = new URLSearchParams(href).get('p');
+      p = store.tiddlerIdMap.get(p) || p;
+      const linked = store.tiddlerMap.get(p);
       if (!linked) a.classList.add('non-existent');
     } else {
       a.target = '_blank';

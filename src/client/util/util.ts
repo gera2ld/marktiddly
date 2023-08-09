@@ -1,3 +1,10 @@
+export async function requestText(url: string) {
+  const res = await fetch(url);
+  const data = await res.text();
+  if (!res.ok) throw { status: res.status, data };
+  return data;
+}
+
 export async function requestJson<T>(url: string) {
   const res = await fetch(url);
   const data = await res.json();

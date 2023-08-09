@@ -23,6 +23,9 @@ dependencies:
   globby:
     specifier: ^13.2.2
     version: 13.2.2
+  highlight.js:
+    specifier: ^11.8.0
+    version: 11.8.0
   js-yaml:
     specifier: ^4.1.0
     version: 4.1.0
@@ -35,9 +38,6 @@ dependencies:
   pako:
     specifier: ^2.1.0
     version: 2.1.0
-  prismjs:
-    specifier: ^1.29.0
-    version: 1.29.0
   remarkable:
     specifier: ^2.0.1
     version: 2.0.1
@@ -55,6 +55,9 @@ devDependencies:
   '@gera2ld/plaid-rollup':
     specifier: ~2.5.9
     version: 2.5.9(@babel/core@7.22.10)(@gera2ld/plaid@2.5.9)(postcss@8.4.27)
+  '@highlightjs/cdn-assets':
+    specifier: ^11.8.0
+    version: 11.8.0
   '@types/lodash-es':
     specifier: ^4.17.8
     version: 4.17.8
@@ -1757,6 +1760,11 @@ packages:
     transitivePeerDependencies:
       - supports-color
       - ts-node
+    dev: true
+
+  /@highlightjs/cdn-assets@11.8.0:
+    resolution: {integrity: sha512-gkfCH4xGBGY9xPaW+t26WpgnfpDhNhB5RtVUDLx3MHkC7ZrmKeIxXsfjzOiuOnEgRk+vydlY6XeOeglh+eVhyg==}
+    engines: {node: '>=12.0.0'}
     dev: true
 
   /@humanwhocodes/config-array@0.11.10:
@@ -5090,6 +5098,11 @@ packages:
     resolution: {integrity: sha512-WdZTbAByD+pHfl/g9QSsBIIwy8IT+EsPiKDs0KNX+zSHhdDLFKdZu0BQHljvO+0QI/BasbMSUa8wYNCZTvhslg==}
     dev: true
 
+  /highlight.js@11.8.0:
+    resolution: {integrity: sha512-MedQhoqVdr0U6SSnWPzfiadUcDHfN/Wzq25AkXiQv9oiOO/sG0S7XkvpFIqWBl9Yq1UYyYOOVORs5UW2XlPyzg==}
+    engines: {node: '>=12.0.0'}
+    dev: false
+
   /highlight.js@9.18.5:
     resolution: {integrity: sha512-a5bFyofd/BHCX52/8i8uJkjr9DYwXIPnM/plwI6W7ezItLGqzt7X2G2nXuYSfsIJdkwwj/g9DG1LkcGJI/dDoA==}
     deprecated: Support has ended for 9.x series. Upgrade to @latest
@@ -7417,11 +7430,6 @@ packages:
     resolution: {integrity: sha512-66hKPCr+72mlfiSjlEB1+45IjXSqvVAIy6mocupoww4tBFE9R9IhwwUGoI4G++Tc9Aq+2rxOt0RFU6gPcrte0A==}
     engines: {node: '>= 0.8'}
     dev: true
-
-  /prismjs@1.29.0:
-    resolution: {integrity: sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==}
-    engines: {node: '>=6'}
-    dev: false
 
   /process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}

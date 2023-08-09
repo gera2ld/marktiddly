@@ -1,7 +1,7 @@
 import browserSync from 'rollup-plugin-browsersync';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
-export function browserSyncPlugin({ dist }) {
+export function browserSyncPlugin({ dist, port = 4000 }) {
   return browserSync({
     server: dist,
     notify: false,
@@ -9,7 +9,7 @@ export function browserSyncPlugin({ dist }) {
     middleware: [
       {
         route: '/api',
-        handle: createProxyMiddleware({ target: 'http://localhost:4000' }),
+        handle: createProxyMiddleware({ target: `http://localhost:${port}` }),
       },
     ],
   });

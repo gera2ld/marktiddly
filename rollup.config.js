@@ -1,5 +1,6 @@
 import plaid from '@gera2ld/plaid';
 import vue from 'rollup-plugin-vue';
+import hljsPkg from '@highlightjs/cdn-assets/package.json' assert { type: 'json' };
 import { browserSyncPlugin } from './scripts/browser-sync.js';
 import pkg from './package.json' assert { type: 'json' };
 
@@ -30,8 +31,12 @@ const rollupConfig = [
         esm: true,
         extensions: ['.browser.ts', ...defaultOptions.extensions],
         minimize: isProd,
+        replaceValues: {
+          'process.env.HLJS_VERSION': JSON.stringify(hljsPkg.version),
+        },
       }),
-      !isProd && browserSyncPlugin({ dist: DIST }),
+      !isProd &&
+        browserSyncPlugin({ dist: DIST, port: +process.env.PORT || 4000 }),
     ].filter(Boolean),
     output: {
       format: 'esm',

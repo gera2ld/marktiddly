@@ -1,6 +1,5 @@
 import { createApp } from 'vue';
 import 'github-markdown-css';
-import './prism.css';
 import '@unocss/reset/tailwind.css';
 import './style.css';
 import App from './app.vue';

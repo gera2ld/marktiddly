@@ -55,7 +55,7 @@ export async function b64bin(base64: string) {
 
 export async function decryptMessage(
   binaryMessage: Uint8Array,
-  passwords: string[]
+  passwords: string[],
 ): Promise<Uint8Array> {
   const { decrypt, readMessage } = await import(
     'https://cdn.jsdelivr.net/npm/openpgp@5.8.0/+esm'

@@ -25,7 +25,7 @@ export async function generate(options: {
 }) {
   let html = await readFile(resolve(dist, 'index.html'), 'utf8');
   const manifest = JSON.parse(
-    await readFile(resolve(dist, 'manifest.json'), 'utf8')
+    await readFile(resolve(dist, 'manifest.json'), 'utf8'),
   );
   const tiddlers = await loadFiles(options);
   const clientJs = await readFile(resolve(dist, 'client.js'), 'utf8');
@@ -46,13 +46,13 @@ export async function generate(options: {
   html = html.replace(
     'href="manifest.json"',
     `href="data:application/manifest+json,${encodeURIComponent(
-      JSON.stringify(manifest)
-    )}"`
+      JSON.stringify(manifest),
+    )}"`,
   );
   const rawData = { tiddlers, activeName };
-  let data: { meta?: string; data: any } = await packData(
+  let data: { meta?: string; data: unknown } = await packData(
     JSON.stringify(rawData),
-    options
+    options,
   );
   if (!data.meta) data = { data: rawData };
   html = html.replace(/<script(\b[^>]*?) src="client.js"><\/script>/, (_, g) =>
@@ -64,13 +64,13 @@ export async function generate(options: {
             ...data,
             title,
             passwordHint: pgpHint,
-          })
+          }),
       ),
       '</script>',
       ...(useCdn
         ? [`<script${g} src="${cdnPrefix}/dist/client.js"></script>`]
         : [`<script${g}>`, escapeScript(clientJs), '</script>']),
-    ].join('')
+    ].join(''),
   );
   return html;
 }

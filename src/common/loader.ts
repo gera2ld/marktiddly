@@ -8,7 +8,7 @@ import { MarkTiddler, MarkTiddlerFrontmatter } from './types';
 export async function loadFiles({ cwd, ssr }: { cwd: string; ssr: boolean }) {
   const files = await globby('**/*.md', { cwd });
   const data = await Promise.all(
-    files.map((file) => loadFile({ file, cwd, ssr }))
+    files.map((file) => loadFile({ file, cwd, ssr })),
   );
   if (ssr) {
     let pathFrom = '';
@@ -35,7 +35,7 @@ async function loadFile({
   ssr: boolean;
 }): Promise<MarkTiddler> {
   const { frontmatter, content } = parseMetadata(
-    await readFile(join(cwd, file), 'utf8')
+    await readFile(join(cwd, file), 'utf8'),
   );
   const name = file.replace(/\.md$/, '');
   frontmatter.title ||= name;
@@ -68,7 +68,7 @@ function parseMetadata(content: string) {
   };
   if (!frontmatter.tags) {
     frontmatter.tags = [...content.matchAll(/(?:^|\s)#([\w\-_]+)/g)].map(
-      (matches) => matches[1]
+      (matches) => matches[1],
     );
   }
   return { frontmatter, content };

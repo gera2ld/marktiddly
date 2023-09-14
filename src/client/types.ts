@@ -14,7 +14,7 @@ declare global {
       title?: string;
       passwordHint?: string;
       meta?: string;
-      data: any;
+      data: unknown;
     };
   }
 }

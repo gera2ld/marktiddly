@@ -67,7 +67,7 @@ watch(
   keyword,
   debounce((keyword: string) => {
     store.keyword = keyword;
-  }, 200)
+  }, 200),
 );
 
 function handleOpen(tiddler: MarkTiddler) {

@@ -50,5 +50,5 @@ export const matches = computed(() => {
 });
 
 export const activeTiddler = computed(() =>
-  store.tiddlerMap.get(store.activeName)
+  store.tiddlerMap.get(store.activeName),
 );

@@ -4,7 +4,7 @@ export function linkPlugin(
   md: Remarkable,
   options?: {
     resolve?: (path: string) => string;
-  }
+  },
 ) {
   md.core.ruler.before(
     'inline',
@@ -37,16 +37,16 @@ export function linkPlugin(
               }
               path ||= `?p=${encodeURIComponent(name)}`;
               return `[${label}](${path})`;
-            }
+            },
           );
           token.content = token.content.replace(
             /(^|\s)(https?:\/\/\S+)/,
-            '$1<$2>'
+            '$1<$2>',
           );
         }
       }
       return false;
     },
-    {}
+    {},
   );
 }

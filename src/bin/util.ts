@@ -16,7 +16,7 @@ export async function packData(
   options?: {
     pako?: boolean;
     pgp?: string;
-  }
+  },
 ) {
   options = {
     pako: true,

@@ -21,11 +21,11 @@ program
   .option('--title <title>', 'Set title of this static site', 'MarkTiddly')
   .option(
     '--default-open <name>',
-    'The basenames of Markdown files that should be open on page load, note that `.md` must be omitted'
+    'The basenames of Markdown files that should be open on page load, note that `.md` must be omitted',
   )
   .option(
     '-o, --output <path>',
-    'Write the output into a file instead of stdout'
+    'Write the output into a file instead of stdout',
   )
   .action(async (options) => {
     options.cwd = resolve(options.cwd || '.');
@@ -46,7 +46,7 @@ program
   .option('--title <title>', 'Set title of this static site', 'MarkTiddly')
   .option(
     '--default-open <name>',
-    'The basenames of Markdown files that should be open on page load, note that `.md` must be omitted'
+    'The basenames of Markdown files that should be open on page load, note that `.md` must be omitted',
   )
   .option('-p, --port <port>', 'The port to listen', '4000')
   .action((options) => {

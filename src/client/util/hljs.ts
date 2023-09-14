@@ -17,9 +17,9 @@ async function loadCSS() {
   const [dark, light] = await Promise.all(
     ['tokyo-night-dark', 'tokyo-night-light'].map((theme) =>
       requestText(
-        `${prefix}@highlightjs/cdn-assets@${process.env.HLJS_VERSION}/styles/${theme}.min.css`
-      )
-    )
+        `${prefix}@highlightjs/cdn-assets@${process.env.HLJS_VERSION}/styles/${theme}.min.css`,
+      ),
+    ),
   );
   const css = `\
 @media (prefers-color-scheme: dark) {

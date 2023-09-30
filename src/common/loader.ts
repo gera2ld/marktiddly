@@ -5,8 +5,16 @@ import yaml from 'js-yaml';
 import { getMd } from './remarkable';
 import { MarkTiddler, MarkTiddlerFrontmatter } from './types';
 
-export async function loadFiles({ cwd, ssr }: { cwd: string; ssr: boolean }) {
-  const files = await globby('**/*.md', { cwd });
+export async function loadFiles({
+  cwd,
+  glob,
+  ssr,
+}: {
+  cwd: string;
+  glob: string[];
+  ssr: boolean;
+}) {
+  const files = await globby(glob, { cwd });
   const data = await Promise.all(
     files.map((file) => loadFile({ file, cwd, ssr })),
   );

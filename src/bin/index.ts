@@ -11,7 +11,10 @@ program
 program
   .command('generate')
   .description('Generate a static HTML with everything')
-  .option('--cwd <path>', 'Specify a current working directory', '.')
+  .option('-C, --cwd <path>', 'Specify a current working directory', '.')
+  .option('-g, --glob [pattern...]', 'Set glob patterns for Markdown files', [
+    '**/*.md',
+  ])
   .option('--no-ssr', 'Disable server side Markdown rendering')
   .option('--use-cdn', 'Whether to load client.js from CDN')
   .option('--no-pako', 'Do not compress data with pako')

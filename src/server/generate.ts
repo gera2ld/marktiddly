@@ -17,6 +17,7 @@ export async function generate(options: {
   ssr: boolean;
   useCdn: boolean;
   pako: boolean;
+  glob: string[];
   pgp?: string;
   pgpHint?: string;
   title?: string;

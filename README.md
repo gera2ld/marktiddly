@@ -29,7 +29,12 @@ $ open output.html
 Protect data with a password:
 
 ```bash
-$ npx marktiddly generate --cwd my-docs -o output.html --pgp 'My Password' --pgp-hint 'Ask Mom for the password'
+$ npx marktiddly generate \
+  --cwd my-docs \
+  -o output.html \
+  --pgp 'My Password' \
+  --pgp-hint 'Ask Mom for the password' \
+  --glob 'public/*.md'
 $ open output.html
 ```
 

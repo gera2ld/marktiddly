@@ -38,6 +38,7 @@ const rollupConfig = [
       !isProd &&
         browserSyncPlugin({ dist: DIST, port: +process.env.PORT || 4000 }),
     ].filter(Boolean),
+    external: id => id.startsWith('https://'),
     output: {
       format: 'esm',
       file: `${DIST}/client.js`,

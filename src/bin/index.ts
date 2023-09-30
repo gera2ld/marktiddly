@@ -1,8 +1,7 @@
 import { writeFile } from 'fs/promises';
 import { resolve } from 'path';
 import { program } from 'commander';
-import { generate } from './generate';
-import { serve } from './server';
+import { generate, serve } from '../server';
 
 program
   .name('marktiddly')

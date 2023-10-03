@@ -2,8 +2,8 @@ import { readFile } from 'fs/promises';
 import { dirname, join } from 'path';
 import { globby } from 'globby';
 import yaml from 'js-yaml';
-import { getMd } from './remarkable';
-import { MarkTiddler, MarkTiddlerFrontmatter } from './types';
+import { getMd } from '../common/remarkable';
+import { MarkTiddler, MarkTiddlerFrontmatter } from '../common/types';
 
 export async function loadFiles({
   cwd,
@@ -22,7 +22,7 @@ export async function loadFiles({
     let pathFrom = '';
     const md = getMd((pathTo) => {
       const path = join(dirname(pathFrom), pathTo);
-      return data.find((tiddler) => tiddler.path === path)?.name;
+      return data.find((tiddler) => tiddler.path === path)?.name || '';
     });
     data.forEach((tiddler) => {
       pathFrom = tiddler.path;

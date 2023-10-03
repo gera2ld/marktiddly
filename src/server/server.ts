@@ -1,7 +1,7 @@
 import { dirname, resolve } from 'path';
 import express from 'express';
 import { fileURLToPath } from 'url';
-import { loadFiles } from '../common/loader';
+import { loadFiles } from './loader';
 
 const __filename = fileURLToPath(import.meta.url);
 const rootDir = dirname(dirname(__filename));

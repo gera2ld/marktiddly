@@ -1,7 +1,7 @@
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { readFile } from 'fs/promises';
-import { loadFiles } from '../common/loader';
+import { loadFiles } from './loader';
 import { packData } from './util';
 
 const dist = dirname(fileURLToPath(import.meta.url));

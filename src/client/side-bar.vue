@@ -29,13 +29,13 @@
             <li
               v-for="item in matches[group]"
               :key="item.name"
-              @click="handleOpen(item)"
+              @click="handleOpen(item.name)"
             >
               <a
                 class="block px-2 py-1 hover:bg-blue-100 hover:dark:bg-blue-700 hover:text-gray-600 hover:dark:text-black"
                 :href="`?p=${encodeURIComponent(item.name)}`"
                 @click.prevent
-                v-text="item.frontmatter?.title || item.name"
+                v-html="item.title"
               ></a>
             </li>
           </ul>
@@ -50,7 +50,6 @@
 import { debounce } from 'lodash-es';
 import { ref, watch } from 'vue';
 import { store, matches, openTiddler } from './util';
-import { MarkTiddler } from '../common/types';
 import Footer from './footer.vue';
 
 defineProps<{
@@ -74,8 +73,9 @@ watch(
   }, 200),
 );
 
-function handleOpen(tiddler: MarkTiddler) {
-  openTiddler(tiddler);
+function handleOpen(name: string) {
+  const tiddler = store.tiddlerMap.get(name);
+  if (tiddler) openTiddler(tiddler);
   emit('close');
 }
 </script>

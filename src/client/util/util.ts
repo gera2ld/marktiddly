@@ -5,43 +5,8 @@ const KEY_PATH = 'p';
 
 export function getTiddlerNameByUrl(search = window.location.search) {
   const query = new URLSearchParams(search);
-  const p = query.get(KEY_PATH);
+  const p = query.get(KEY_PATH) || undefined;
   return p;
-}
-
-export function fuzzySearch(keyword: string, data: string) {
-  const result: number[] = [];
-  let j = 0;
-  for (
-    let i = 0;
-    i < keyword.length && keyword.length - i <= data.length - j;
-    i += 1
-  ) {
-    j = data.indexOf(keyword[i], j);
-    if (j < 0) break;
-    result.push(j);
-    j += 1;
-  }
-  return result.length === keyword.length ? result : undefined;
-}
-
-export async function binb64(binary: Uint8Array) {
-  const dataUrl = await new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      resolve(reader.result as string);
-    };
-    reader.onerror = reject;
-    reader.readAsDataURL(new Blob([binary]));
-  });
-  const i = dataUrl.indexOf(',');
-  return dataUrl.slice(i + 1);
-}
-
-export async function b64bin(base64: string) {
-  const res = await fetch('data:;base64,' + base64);
-  const buffer = await res.arrayBuffer();
-  return new Uint8Array(buffer);
 }
 
 export async function decryptMessage(

@@ -28,3 +28,7 @@ button {
 .markdown-body a[target='_blank'] {
   @apply underline;
 }
+
+.sep {
+  @apply text-gray-600 dark:text-gray-500;
+}

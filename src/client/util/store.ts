@@ -1,6 +1,7 @@
 import { computed, reactive } from 'vue';
 import { MarkTiddler } from '../../common/types';
 import { fuzzySearch, getTiddlerNameByUrl } from './util';
+import { getMdBrowser } from '../../common/remarkable/browser';
 
 export const store = reactive<{
   keyword: string;
@@ -49,6 +50,13 @@ export const matches = computed(() => {
   };
 });
 
-export const activeTiddler = computed(() =>
-  store.tiddlerMap.get(store.activeName),
-);
+export const activeTiddler = computed(() => {
+  const tiddler = store.tiddlerMap.get(store.activeName || '');
+  if (tiddler && tiddler.html == null) renderMd(tiddler);
+  return tiddler;
+});
+
+async function renderMd(tiddler: MarkTiddler) {
+  const md = await getMdBrowser();
+  tiddler.html = md.render(tiddler.content);
+}

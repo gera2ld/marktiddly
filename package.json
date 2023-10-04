@@ -57,9 +57,13 @@
     "gulp": "^4.0.2",
     "http-proxy-middleware": "^2.0.6",
     "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
     "rollup-plugin-browsersync": "^1.3.3",
     "rollup-plugin-vue": "^6.0.0",
     "unocss": "^0.56.4"
   },
-  "repository": "git@github.com:gera2ld/marktiddly.git"
+  "repository": "git@github.com:gera2ld/marktiddly.git",
+  "lint-staged": {
+    "*.{ts,tsx,vue,css}": ["eslint --fix", "prettier -w --ignore-path .eslintignore"]
+  }
 }

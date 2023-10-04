@@ -2,12 +2,8 @@ import ky from 'ky';
 import { MarkTiddler } from '../../common/types';
 import { MarkTiddlyData } from '../types';
 import { store } from './store';
-import {
-  b64bin,
-  decryptMessage,
-  getTiddlerNameByUrl,
-  pakoInflate,
-} from './util';
+import { decryptMessage, getTiddlerNameByUrl, pakoInflate } from './util';
+import { b64decode } from './base64';
 
 export const PWD_KEY = 'mtpwd';
 
@@ -19,7 +15,7 @@ async function loadDataFromLocal() {
   if (meta) {
     const pipes = meta.split(':').filter(Boolean);
     const decoder = new TextDecoder();
-    let binary = await b64bin(data);
+    let binary = b64decode(data as string);
     for (const pipe of pipes) {
       if (pipe === 'pako') {
         binary = await pakoInflate(binary);

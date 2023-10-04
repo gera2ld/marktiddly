@@ -1,4 +1,4 @@
-import { requestText } from './util';
+import ky from 'ky';
 
 const prefix = 'https://cdn.jsdelivr.net/npm/';
 
@@ -16,9 +16,9 @@ async function initialize() {
 async function loadCSS() {
   const [dark, light] = await Promise.all(
     ['tokyo-night-dark', 'tokyo-night-light'].map((theme) =>
-      requestText(
+      ky(
         `${prefix}@highlightjs/cdn-assets@${process.env.HLJS_VERSION}/styles/${theme}.min.css`,
-      ),
+      ).text(),
     ),
   );
   const css = `\

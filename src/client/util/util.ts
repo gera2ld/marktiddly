@@ -1,17 +1,3 @@
-export async function requestText(url: string) {
-  const res = await fetch(url);
-  const data = await res.text();
-  if (!res.ok) throw { status: res.status, data };
-  return data;
-}
-
-export async function requestJson<T>(url: string) {
-  const res = await fetch(url);
-  const data = await res.json();
-  if (!res.ok) throw { status: res.status, data };
-  return data as T;
-}
-
 export function getTiddlerNameByUrl(search = window.location.search) {
   const query = new URLSearchParams(search);
   const p = query.get('p');

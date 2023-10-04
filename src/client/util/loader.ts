@@ -1,3 +1,4 @@
+import ky from 'ky';
 import { MarkTiddler } from '../../common/types';
 import { MarkTiddlyData } from '../types';
 import { store } from './store';
@@ -6,7 +7,6 @@ import {
   decryptMessage,
   getTiddlerNameByUrl,
   pakoInflate,
-  requestJson,
 } from './util';
 
 export const PWD_KEY = 'mtpwd';
@@ -54,11 +54,15 @@ async function loadDataFromLocal() {
 }
 
 async function loadDataFromRemote() {
-  const { title, tiddlers, activeName } = await requestJson<{
+  const {
+    title,
+    tiddlers,
+    activeName,
+  }: {
     title?: string;
     tiddlers: MarkTiddler[];
     activeName?: string;
-  }>('/api/data');
+  } = await ky('/api/data').json();
   if (title) store.title = title;
   return { tiddlers, activeName };
 }
@@ -68,7 +72,7 @@ export async function loadTiddlers() {
     (await loadDataFromLocal()) || (await loadDataFromRemote());
   const tiddlerMap = new Map<string, MarkTiddler>();
   const idMap = new Map<string, string>();
-  tiddlers.forEach((item) => {
+  tiddlers?.forEach((item) => {
     tiddlerMap.set(item.name, item);
     if (item.frontmatter.id) idMap.set(item.frontmatter.id, item.name);
   });

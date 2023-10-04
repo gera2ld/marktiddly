@@ -6,21 +6,17 @@ import { loadFiles } from './loader';
 const __filename = fileURLToPath(import.meta.url);
 const rootDir = dirname(dirname(__filename));
 
-export function serve({
-  port,
-  cwd,
-  ssr,
-  title,
-  defaultOpen,
-}: {
+export function serve(options: {
   port: number | string;
   cwd: string;
+  glob: string[];
   ssr: boolean;
   title?: string;
   defaultOpen?: string;
 }) {
+  const { defaultOpen, title, port } = options;
   const app = new express();
-  const loading = loadFiles({ cwd, ssr });
+  const loading = loadFiles(options);
   const activeName = defaultOpen?.toLowerCase();
 
   app.get('/api/data', async (req, res) => {

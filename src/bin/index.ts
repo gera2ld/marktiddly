@@ -43,7 +43,10 @@ program
 program
   .command('serve')
   .description('Serve the tiddlers as a website')
-  .option('--cwd <path>', 'Specify a current working directory', '.')
+  .option('-C, --cwd <path>', 'Specify a current working directory', '.')
+  .option('-g, --glob [pattern...]', 'Set glob patterns for Markdown files', [
+    '**/*.md',
+  ])
   .option('--no-ssr', 'Disable server side Markdown rendering')
   .option('--title <title>', 'Set title of this static site', 'MarkTiddly')
   .option(

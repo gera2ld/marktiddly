@@ -19,14 +19,18 @@
       placeholder="Search your tiddlers here"
     />
     <div class="flex-1 min-h-0 overflow-x-hidden overflow-y-auto text-sm mb-4">
-      <template v-for="[group, groupTitle] in groups">
+      <template v-for="[group, groupTitle] in groups" :key="group">
         <template v-if="matches[group].length">
           <div
             class="sticky top-0 bottom-0 bg-gray-100 dark:bg-gray-900 px-2 py-1 text-gray-600 dark:text-gray-400"
             v-text="`${groupTitle} (${matches[group].length})`"
           ></div>
           <ul>
-            <li v-for="item in matches[group]" @click="handleOpen(item)">
+            <li
+              v-for="item in matches[group]"
+              :key="item.name"
+              @click="handleOpen(item)"
+            >
               <a
                 class="block px-2 py-1 hover:bg-blue-100 hover:dark:bg-blue-700 hover:text-gray-600 hover:dark:text-black"
                 :href="`?p=${encodeURIComponent(item.name)}`"

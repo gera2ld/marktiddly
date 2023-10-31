@@ -2,6 +2,7 @@ import { MarkTiddler } from '../../common/types';
 import { store } from './store';
 
 const KEY_PATH = 'p';
+store.activeName = getTiddlerNameByUrl();
 
 export function getTiddlerNameByUrl(search = window.location.search) {
   const query = new URLSearchParams(search);

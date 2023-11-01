@@ -21,24 +21,31 @@ const searchContentData = computed(() =>
 );
 
 export const matches = computed(() => {
-  const titleMatches = fuzzySearch(searchTitleData.value, store.keyword, {
-    highlight: true,
+  const keyword = store.search?.keyword;
+  if (!keyword) return [];
+  const matches = new Map<number, { title?: string; content?: string }>();
+  const titleMatches = fuzzySearch(searchTitleData.value, keyword, {
+    maxSize: Infinity,
+    contextSize: Infinity,
   });
-  const matched = new Set(titleMatches.map(({ index }) => index));
-  const titleResults = titleMatches.map(({ index, content }) => ({
-    title: replaceSep(content),
+  titleMatches.forEach(({ index, content }) => {
+    matches.set(index, { title: replaceSep(content) });
+  });
+  const contentMatches = fuzzySearch(searchContentData.value, keyword);
+  contentMatches.forEach(({ index, content }) => {
+    const match = {
+      index,
+      ...matches.get(index),
+    };
+    match.content = content;
+    matches.set(index, match);
+  });
+  return Array.from(matches, ([index, match]) => ({
+    index,
     name: tiddlerData.value[index].tiddler.name,
+    title: replaceSep(searchTitleData.value[index]),
+    ...match,
   }));
-  const contentResults = fuzzySearch(searchContentData.value, store.keyword)
-    .filter(({ index }) => !matched.has(index))
-    .map(({ index }) => ({
-      title: replaceSep(searchTitleData.value[index]),
-      name: tiddlerData.value[index].tiddler.name,
-    }));
-  return {
-    title: titleResults,
-    content: contentResults,
-  };
 });
 
 function replaceSep(html: string) {

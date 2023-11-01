@@ -1,13 +1,16 @@
 <template>
-  <main class="md:ml-64 md:p-4">
+  <main class="px-4">
     <div
-      class="md:hidden flex items-center h-12 px-4 sticky top-0 z-10 bg-white dark:bg-gray-800"
-      @click="emit('toggleSide')"
+      class="sticky top-0 flex justify-center max-w-full mx-auto py-4 z-1 bg-primary"
     >
-      <svg viewBox="0 0 16 16" class="mr-2 w-4 h-4 cursor-pointer fill-current">
-        <path d="M2 2v2h12v-2zM2 7v2h12v-2zM2 12v2h12v-2z" />
-      </svg>
-      <span class="ml-2 text-orange-400" v-text="store.title"></span>
+      <span
+        class="text-orange-600 dark:text-orange-400 font-bold"
+        v-text="store.title"
+      ></span>
+      <button class="flex-1 md:flex-none w-120 ml-4" @click="handleSearchOpen">
+        <span class="mr-4">Search...</span>
+        <kbd v-text="isMacintosh ? 'Cmd' : 'Ctrl'"></kbd>+<kbd>K</kbd>
+      </button>
     </div>
     <div class="relative z-0">
       <TransitionGroup name="tiddler">
@@ -25,10 +28,9 @@
 <script lang="ts" setup>
 import { activeTiddler, checkUrl, store } from './util';
 import Tiddler from './tiddler.vue';
+import { handleSearchOpen } from './util/actions';
 
-const emit = defineEmits<{
-  (event: 'toggleSide'): void;
-}>();
+const isMacintosh = navigator.userAgent.includes('Macintosh');
 
 function handleLink(link: string) {
   history.pushState({}, '', link);

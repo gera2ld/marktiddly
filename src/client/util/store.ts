@@ -2,7 +2,6 @@ import { reactive } from 'vue';
 import { MarkTiddler } from '../../common/types';
 
 export const store = reactive<{
-  keyword: string;
   title: string;
   tiddlerMap: Map<string, MarkTiddler>;
   tiddlerIdMap: Map<string, string>;
@@ -12,8 +11,11 @@ export const store = reactive<{
     hint?: string;
     error?: string;
   };
+  search?: {
+    keyword: string;
+    active: number;
+  };
 }>({
-  keyword: '',
   title: 'MarkTiddly',
   tiddlerMap: new Map(),
   tiddlerIdMap: new Map(),

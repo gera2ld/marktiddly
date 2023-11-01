@@ -1,7 +1,7 @@
 @unocss;
 
 body,
-aside {
+.bg-primary {
   @apply bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300;
 }
 
@@ -14,11 +14,15 @@ ul {
 }
 
 input {
-  @apply bg-transparent border-b border-gray-300 dark:border-gray-600 px-2;
+  @apply bg-transparent border-b border-gray-300 dark:border-gray-600 px-2 outline-none;
 }
 
 button {
   @apply border border-gray-300 dark:border-gray-600 px-2 hover:bg-gray-200 hover:dark:bg-gray-800;
+}
+
+kbd {
+  @apply rounded bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-200 text-sm p-1;
 }
 
 .markdown-body a.non-existent {
@@ -31,4 +35,17 @@ button {
 
 .sep {
   @apply text-gray-600 dark:text-gray-500;
+}
+
+.panel {
+  @apply shadow shadow-lg border border-gray-300 dark:border-gray-600;
+}
+
+.search-item {
+  @apply px-2 py-1;
+}
+
+.search-item-active,
+.search-item:hover {
+  @apply bg-blue-200 dark:bg-blue-600 text-gray-600 dark:text-gray-200;
 }

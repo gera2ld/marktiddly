@@ -1,12 +1,6 @@
 <template>
-  <div
-    ref="el"
-    class="md:rounded md:border border-gray-300 dark:border-gray-700 mb-4"
-    @click="handleClick"
-  >
-    <div
-      class="flex items-center px-4 py-2 border-b border-gray-300 dark:border-gray-700"
-    >
+  <div ref="el" @click="handleClick">
+    <div class="flex items-center px-4 py-2">
       <div class="flex-1 font-bold text-center md:text-left">
         <template v-for="ancestor in family" :key="ancestor.name">
           <a
@@ -21,7 +15,7 @@
         &cross;
       </div>
     </div>
-    <div class="p-4 markdown-body" v-html="tiddler.html" ref="body"></div>
+    <div class="p-4" v-html="tiddler.html" ref="body"></div>
   </div>
 </template>
 

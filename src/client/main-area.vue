@@ -1,7 +1,7 @@
 <template>
-  <main class="px-4">
+  <main>
     <div
-      class="sticky top-0 flex justify-center max-w-full mx-auto py-4 z-1 bg-primary"
+      class="sticky top-0 h-16 flex items-center justify-center max-w-full mx-auto px-4 z-1 bg-primary border-b border-gray-300 dark:border-gray-600"
     >
       <span
         class="text-orange-600 dark:text-orange-400 font-bold"
@@ -12,7 +12,9 @@
         <kbd v-text="isMacintosh ? 'Cmd' : 'Ctrl'"></kbd>+<kbd>K</kbd>
       </button>
     </div>
-    <div class="relative z-0">
+    <div
+      class="relative z-0 max-w-screen-lg min-h-[80vh] mx-auto p-4 markdown-body bg-transparent"
+    >
       <TransitionGroup name="tiddler">
         <Tiddler
           v-if="activeTiddler"
@@ -22,12 +24,14 @@
         />
       </TransitionGroup>
     </div>
+    <Footer />
   </main>
 </template>
 
 <script lang="ts" setup>
 import { activeTiddler, checkUrl, store } from './util';
 import Tiddler from './tiddler.vue';
+import Footer from './footer.vue';
 import { handleSearchOpen } from './util/actions';
 
 const isMacintosh = navigator.userAgent.includes('Macintosh');

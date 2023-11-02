@@ -1,6 +1,9 @@
 import uFuzzy from '@leeoniya/ufuzzy';
 
-const uf = new uFuzzy();
+const uf = new uFuzzy({
+  unicode: true,
+  interSplit: "[^\\w\\p{UIdeo}']+",
+});
 
 export function fuzzySearch(
   haystack: string[],

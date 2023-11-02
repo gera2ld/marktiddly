@@ -1,28 +1,22 @@
 <template>
   <main>
-    <div
-      class="sticky top-0 h-16 flex items-center justify-center max-w-full mx-auto px-4 z-1 bg-primary border-b border-gray-300 dark:border-gray-600"
-    >
-      <span
-        class="text-orange-600 dark:text-orange-400 font-bold"
-        v-text="store.title"
-      ></span>
-      <button class="flex-1 md:flex-none w-120 ml-4" @click="handleSearchOpen">
-        <span class="mr-4">Search...</span>
-        <kbd v-text="isMacintosh ? 'Cmd' : 'Ctrl'"></kbd>+<kbd>K</kbd>
-      </button>
-    </div>
-    <div
-      class="relative z-0 max-w-screen-lg min-h-[80vh] mx-auto p-4 markdown-body bg-transparent"
-    >
-      <TransitionGroup name="tiddler">
-        <Tiddler
-          v-if="activeTiddler"
-          :key="activeTiddler.name"
-          :tiddler="activeTiddler"
-          @link="handleLink"
-        />
-      </TransitionGroup>
+    <Header />
+    <div class="relative z-0 max-w-screen-lg min-h-[80vh] mx-auto p-4">
+      <div class="markdown-body bg-transparent">
+        <TransitionGroup name="tiddler">
+          <Tiddler
+            v-if="activeTiddler"
+            :key="activeTiddler.name"
+            :tiddler="activeTiddler"
+            @link="handleLink"
+          />
+        </TransitionGroup>
+      </div>
+      <div
+        v-if="!activeTiddler"
+        class="opacity-20 w-24 h-24 mx-auto mt-[30vh] bg-contain bg-no-repeat"
+        :style="`background-image: url(${store.favicon})`"
+      ></div>
     </div>
     <Footer />
   </main>
@@ -31,10 +25,8 @@
 <script lang="ts" setup>
 import { activeTiddler, checkUrl, store } from './util';
 import Tiddler from './tiddler.vue';
+import Header from './header.vue';
 import Footer from './footer.vue';
-import { handleSearchOpen } from './util/actions';
-
-const isMacintosh = navigator.userAgent.includes('Macintosh');
 
 function handleLink(link: string) {
   history.pushState({}, '', link);

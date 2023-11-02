@@ -3,6 +3,7 @@ import { MarkTiddler } from '../../common/types';
 
 export const store = reactive<{
   title: string;
+  favicon: string;
   tiddlerMap: Map<string, MarkTiddler>;
   tiddlerIdMap: Map<string, string>;
   activeName?: string;
@@ -17,6 +18,7 @@ export const store = reactive<{
   };
 }>({
   title: 'MarkTiddly',
+  favicon: '',
   tiddlerMap: new Map(),
   tiddlerIdMap: new Map(),
   activeName: '',

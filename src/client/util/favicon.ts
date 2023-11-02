@@ -1,4 +1,10 @@
-export async function loadFavicon() {
+import { memoize } from 'lodash-es';
+import { store } from './store';
+
+/**
+ * Once inlined, favicon can only be fetched from the base64 encoded `manifest`.
+ */
+export const loadFavicon = memoize(async () => {
   const manifest =
     document.querySelector<HTMLLinkElement>('link[rel=manifest]');
   if (!manifest) return;
@@ -10,4 +16,5 @@ export async function loadFavicon() {
   link.rel = 'icon';
   link.href = icon;
   document.head.append(link);
-}
+  store.favicon = icon;
+});

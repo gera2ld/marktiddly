@@ -21,7 +21,7 @@ async function loadDataFromLocal() {
         binary = await pakoInflate(binary);
       } else if (pipe === 'pgp') {
         const password = sessionStorage.getItem(PWD_KEY);
-        let error: string;
+        let error = '';
         if (!password) {
           error = 'A password is required.';
         } else {
@@ -29,14 +29,14 @@ async function loadDataFromLocal() {
             binary = await decryptMessage(binary, [password]);
           } catch (err) {
             console.error(err);
-            error = err.message || 'Unknown error';
+            error = (err as Error).message || 'Unknown error';
           }
         }
         if (error) {
           store.password = { hint: passwordHint, error };
           throw new Error('Password is required');
         } else {
-          store.password = null;
+          store.password = undefined;
         }
       }
     }

@@ -14,14 +14,14 @@ export function serve(options: {
   title?: string;
   defaultOpen?: string;
 }) {
-  const { defaultOpen, title, port } = options;
+  const { defaultOpen, title, port, ssr } = options;
   const app = new express();
   const loading = loadFiles(options);
   const activeName = defaultOpen?.toLowerCase();
 
   app.get('/api/data', async (req, res) => {
     const tiddlers = await loading;
-    res.send({ title, tiddlers, activeName });
+    res.send({ title, tiddlers, activeName, ssr });
   });
 
   app.get('/:path([^/]+)', (req, res) => {

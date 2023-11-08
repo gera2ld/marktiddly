@@ -5,6 +5,7 @@ export interface MarkTiddlyData {
   title?: string;
   tiddlers?: MarkTiddler[];
   activeName?: string;
+  ssr?: boolean;
 }
 
 declare global {

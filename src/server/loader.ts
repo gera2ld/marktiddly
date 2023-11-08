@@ -15,9 +15,7 @@ export async function loadFiles({
   ssr: boolean;
 }) {
   const files = await globby(glob, { cwd });
-  const data = await Promise.all(
-    files.map((file) => loadFile({ file, cwd, ssr })),
-  );
+  const data = await Promise.all(files.map((file) => loadFile({ file, cwd })));
   if (ssr) {
     let pathFrom = '';
     const md = getMd((pathTo) => {
@@ -26,7 +24,10 @@ export async function loadFiles({
     });
     data.forEach((tiddler) => {
       pathFrom = tiddler.path;
-      tiddler.html = md.render(tiddler.content);
+      if (tiddler.content) {
+        tiddler.html = md.render(tiddler.content);
+        delete tiddler.content;
+      }
     });
   }
   console.info(`Loaded ${data.length} files`);
@@ -36,11 +37,9 @@ export async function loadFiles({
 async function loadFile({
   file,
   cwd,
-  ssr,
 }: {
   file: string;
   cwd: string;
-  ssr: boolean;
 }): Promise<MarkTiddler> {
   const { frontmatter, content } = parseMetadata(
     await readFile(join(cwd, file), 'utf8'),
@@ -52,7 +51,6 @@ async function loadFile({
     name: name.toLowerCase(),
     frontmatter,
     content,
-    ssr,
   };
 }
 

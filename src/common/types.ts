@@ -8,7 +8,6 @@ export interface MarkTiddler {
   name: string;
   path: string;
   frontmatter: MarkTiddlerFrontmatter;
-  content: string;
+  content?: string;
   html?: string;
-  ssr: boolean;
 }

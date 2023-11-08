@@ -17,7 +17,10 @@ const searchTitleData = computed(() =>
   tiddlerData.value.map(({ titles }) => titles.join(magicChar)),
 );
 const searchContentData = computed(() =>
-  tiddlerData.value.map(({ tiddler }) => tiddler.content),
+  tiddlerData.value.map(
+    ({ tiddler }) =>
+      tiddler.html?.replace(/<[^>]+?>/g, '') || tiddler.content || '',
+  ),
 );
 
 export const matches = computed(() => {
@@ -60,5 +63,5 @@ export const activeTiddler = computed(() => {
 
 async function renderMd(tiddler: MarkTiddler) {
   const md = await getMdBrowser();
-  tiddler.html = md.render(tiddler.content);
+  tiddler.html = md.render(tiddler.content || '');
 }

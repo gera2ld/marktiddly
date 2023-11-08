@@ -45,8 +45,8 @@ async function loadDataFromLocal() {
   } else {
     marktiddlyData = data;
   }
-  const { tiddlers, activeName } = marktiddlyData;
-  return { tiddlers, activeName };
+  const { tiddlers, activeName, ssr } = marktiddlyData;
+  return { tiddlers, activeName, ssr };
 }
 
 async function loadDataFromRemote() {
@@ -54,17 +54,19 @@ async function loadDataFromRemote() {
     title,
     tiddlers,
     activeName,
+    ssr,
   }: {
     title?: string;
     tiddlers: MarkTiddler[];
     activeName?: string;
+    ssr: boolean;
   } = await ky('/api/data').json();
   if (title) store.title = title;
-  return { tiddlers, activeName };
+  return { tiddlers, activeName, ssr };
 }
 
 export async function loadTiddlers() {
-  const { tiddlers, activeName } =
+  const { tiddlers, activeName, ssr } =
     (await loadDataFromLocal()) || (await loadDataFromRemote());
   const tiddlerMap = new Map<string, MarkTiddler>();
   const idMap = new Map<string, string>();
@@ -76,6 +78,7 @@ export async function loadTiddlers() {
   store.tiddlerIdMap = idMap;
   store.defaultName = activeName;
   store.activeName ||= activeName;
+  store.ssr = ssr ?? false;
 }
 
 export function getTiddlerByUrl(search?: string) {

@@ -81,7 +81,7 @@ function checkLinks() {
 }
 
 onMounted(async () => {
-  if (el.value && !tiddler.ssr) highlight(el.value);
+  if (el.value && !store.ssr) highlight(el.value);
   nextTick(checkLinks);
 });
 </script>

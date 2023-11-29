@@ -25,12 +25,18 @@ kbd {
   @apply rounded bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-200 text-sm p-1;
 }
 
-.markdown-body a.non-existent {
-  @apply text-red-400 cursor-not-allowed;
-}
+.markdown-body {
+  pre code.hljs {
+    @apply p-0;
+  }
 
-.markdown-body a[target='_blank'] {
-  @apply underline;
+  a.non-existent {
+    @apply text-red-400 cursor-not-allowed;
+  }
+
+  a[target='_blank'] {
+    @apply underline;
+  }
 }
 
 .sep {

@@ -18,3 +18,17 @@ Check https://gera2ld.github.io/marktiddly/encrypted for MarkTiddly with data pr
 $ npx marktiddly --cwd my-docs -o output.html
 $ open output.html
 ```
+
+## How It Works
+
+```mermaid
+graph LR
+
+subgraph Server
+A[Markdown files] -->|Parser| B[HTML]
+end
+B --> C[HTML]
+subgraph Browser
+C -->|Plugins| D[Features enabled]
+end
+```

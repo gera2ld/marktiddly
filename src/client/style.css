@@ -26,16 +26,20 @@ kbd {
 }
 
 .markdown-body {
-  pre code.hljs {
-    @apply p-0;
-  }
-
   a.non-existent {
     @apply text-red-400 cursor-not-allowed;
   }
 
   a[target='_blank'] {
     @apply underline;
+  }
+
+  pre code.hljs {
+    @apply p-0;
+  }
+
+  code.language-mermaid br {
+    display: initial;
   }
 }
 

@@ -1,22 +1,21 @@
-import plaid from '@gera2ld/plaid';
+import { defineConfig } from 'rollup';
+import { definePlugins, defineExternal } from '@gera2ld/plaid-rollup';
 import vue from 'rollup-plugin-vue';
 import hljsPkg from '@highlightjs/cdn-assets/package.json' assert { type: 'json' };
 import { browserSyncPlugin } from './scripts/browser-sync.js';
 import pkg from './package.json' assert { type: 'json' };
 
-const { defaultOptions, getRollupExternal, getRollupPlugins, isProd } = plaid;
-const DIST = defaultOptions.distDir;
+const DIST = 'dist';
 const BANNER = `/*! ${pkg.name} v${pkg.version} | ${pkg.license} License */`;
-defaultOptions.extensions.unshift('.vue');
+const isProd = process.env.NODE_ENV === 'production';
 
-const rollupConfig = [
+export default defineConfig([
   {
     input: 'src/bin/index.ts',
-    plugins: getRollupPlugins({
-      esm: true,
+    plugins: definePlugins({
       minimize: false,
     }),
-    external: getRollupExternal(Object.keys(pkg.dependencies)),
+    external: defineExternal(Object.keys(pkg.dependencies)),
     output: {
       format: 'esm',
       file: `${DIST}/bin.mjs`,
@@ -27,9 +26,8 @@ const rollupConfig = [
     input: 'src/client/index.ts',
     plugins: [
       vue(),
-      ...getRollupPlugins({
-        esm: true,
-        extensions: ['.browser.ts', ...defaultOptions.extensions],
+      ...definePlugins({
+        extensions: ['.vue', '.ts', '.tsx'],
         minimize: isProd,
         replaceValues: {
           'process.env.HLJS_VERSION': JSON.stringify(hljsPkg.version),
@@ -45,15 +43,4 @@ const rollupConfig = [
       banner: BANNER,
     },
   },
-];
-
-rollupConfig.forEach((item) => {
-  item.output = {
-    indent: false,
-    // If set to false, circular dependencies and live bindings for external imports won't work
-    externalLiveBindings: false,
-    ...item.output,
-  };
-});
-
-export default rollupConfig;
+]);

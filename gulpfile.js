@@ -3,10 +3,8 @@ import gulp from 'gulp';
 import log from 'fancy-log';
 import { rollup, watch } from 'rollup';
 import { deleteAsync } from 'del';
-import plaid from '@gera2ld/plaid';
 
-const { defaultOptions } = plaid;
-const DIST = defaultOptions.distDir;
+const DIST = 'dist';
 
 async function loadConfig() {
   const { default: rollupConfig } = await import('./rollup.config.js');

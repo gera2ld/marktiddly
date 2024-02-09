@@ -1,8 +1,8 @@
 import { computed } from 'vue';
-import { getTiddlerFamily } from './util';
+import { renderMarkdown } from './markdown';
 import { fuzzySearch } from './search';
 import { store } from './store';
-import { renderMarkdown } from './markdown';
+import { getTiddlerFamily } from './util';
 
 const tiddlerData = computed(() => {
   const tiddlers = [...store.tiddlerMap.values()];
@@ -21,32 +21,54 @@ const searchContentData = computed(() =>
       tiddler.html?.replace(/<[^>]+?>/g, '') || tiddler.content || '',
   ),
 );
+const searchNameData = computed(() =>
+  tiddlerData.value.map(({ tiddler }) => tiddler.name),
+);
+
+interface IMatchData {
+  matchedTitle?: string;
+  matchedContent?: string;
+  matchedName?: string;
+}
+
+const rules: Array<{
+  data: { value: string[] };
+  options?: {
+    maxSize?: number;
+    contextSize?: number;
+  };
+  field: keyof IMatchData;
+}> = [
+  {
+    data: searchTitleData,
+    options: { maxSize: Infinity, contextSize: Infinity },
+    field: 'matchedTitle',
+  },
+  { data: searchContentData, field: 'matchedContent' },
+  { data: searchNameData, field: 'matchedName' },
+];
 
 export const matches = computed(() => {
   const keyword = store.search?.keyword;
   if (!keyword) return [];
-  const matches = new Map<number, { title?: string; content?: string }>();
-  const titleMatches = fuzzySearch(searchTitleData.value, keyword, {
-    maxSize: Infinity,
-    contextSize: Infinity,
-  });
-  titleMatches.forEach(({ index, content }) => {
-    matches.set(index, { title: replaceSep(content) });
-  });
-  const contentMatches = fuzzySearch(searchContentData.value, keyword);
-  contentMatches.forEach(({ index, content }) => {
-    const match = {
-      index,
-      ...matches.get(index),
-    };
-    match.content = content;
-    matches.set(index, match);
-  });
+  const matches = new Map<number, IMatchData>();
+  for (const { data, options, field } of rules) {
+    const ruleMatches = fuzzySearch(data.value, keyword, options);
+    ruleMatches.forEach(({ index, content }) => {
+      const match = {
+        index,
+        ...matches.get(index),
+        [field]: content,
+      };
+      matches.set(index, match);
+    });
+  }
   return Array.from(matches, ([index, match]) => ({
     index,
     name: tiddlerData.value[index].tiddler.name,
-    title: replaceSep(searchTitleData.value[index]),
-    ...match,
+    title: replaceSep(match.matchedTitle || searchTitleData.value[index]),
+    content: match.matchedContent,
+    matchedName: match.matchedName,
   }));
 });
 

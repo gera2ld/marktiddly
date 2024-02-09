@@ -5,6 +5,10 @@ body,
   @apply bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300;
 }
 
+.subtle {
+  @apply text-gray-400 dark:text-gray-500 text-xs;
+}
+
 a {
   @apply text-blue-400 hover:text-blue-600;
 }
@@ -58,4 +62,7 @@ kbd {
 .search-item-active,
 .search-item:hover {
   @apply bg-blue-200 dark:bg-blue-600 text-gray-600 dark:text-gray-200;
+  .subtle {
+    @apply text-gray-500 dark:text-gray-400;
+  }
 }

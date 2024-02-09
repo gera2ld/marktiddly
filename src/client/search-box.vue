@@ -25,7 +25,14 @@
           @mouseover="handleSearchActive(index)"
           @click="handleSearchEnter(index)"
         >
-          <div class="font-bold" v-html="item.title"></div>
+          <div>
+            <span class="font-bold" v-html="item.title"></span>
+            <span
+              class="subtle ml-2"
+              v-if="item.matchedName"
+              v-html="`(${item.matchedName})`"
+            ></span>
+          </div>
           <div v-if="item.content" v-html="item.content"></div>
         </li>
       </ul>

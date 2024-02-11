@@ -1,5 +1,5 @@
 import { reactive } from 'vue';
-import { MarkTiddler } from '../../common/types';
+import { MarkTiddler, MarkTiddlyPath } from '../../common/types';
 
 export const store = reactive<{
   title: string;
@@ -7,8 +7,8 @@ export const store = reactive<{
   ssr: boolean;
   tiddlerMap: Map<string, MarkTiddler>;
   tiddlerIdMap: Map<string, string>;
-  activeName?: string;
-  defaultName?: string;
+  activePath?: MarkTiddlyPath;
+  defaultPath?: MarkTiddlyPath;
   password?: {
     hint?: string;
     error?: string;
@@ -23,5 +23,4 @@ export const store = reactive<{
   ssr: true,
   tiddlerMap: new Map(),
   tiddlerIdMap: new Map(),
-  activeName: '',
 });

@@ -1,7 +1,7 @@
 import { readFile } from 'fs/promises';
-import { dirname, join } from 'path';
 import { globby } from 'globby';
 import yaml from 'js-yaml';
+import { join } from 'path';
 import { getMd } from '../common/remarkable';
 import { MarkTiddler, MarkTiddlerFrontmatter } from '../common/types';
 
@@ -17,14 +17,16 @@ export async function loadFiles({
   const files = await globby(glob, { cwd });
   const data = await Promise.all(files.map((file) => loadFile({ file, cwd })));
   if (ssr) {
-    let pathFrom = '';
-    const md = getMd((pathTo) => {
-      const path = join(dirname(pathFrom), pathTo);
-      return data.find((tiddler) => tiddler.path === path)?.name || '';
+    let links: string[];
+    const md = getMd({
+      onLink: (link) => {
+        links.push(link.path);
+      },
     });
     data.forEach((tiddler) => {
-      pathFrom = tiddler.path;
       if (tiddler.content) {
+        links = [];
+        tiddler.links = links;
         tiddler.html = md.render(tiddler.content);
         delete tiddler.content;
       }
@@ -72,10 +74,5 @@ function parseMetadata(content: string) {
   frontmatter ||= {
     title: '',
   };
-  if (!frontmatter.tags) {
-    frontmatter.tags = [...content.matchAll(/(?:^|\s)#([\w\-_]+)/g)].map(
-      (matches) => matches[1],
-    );
-  }
   return { frontmatter, content };
 }

@@ -1,6 +1,6 @@
 export function b64decode(base64: string) {
   const binString = atob(base64);
-  return Uint8Array.from(binString, (m) => m.codePointAt(0));
+  return Uint8Array.from(binString, (m) => m.codePointAt(0) || 0);
 }
 
 export function b64decodeText(base64: string) {

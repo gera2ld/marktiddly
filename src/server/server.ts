@@ -1,6 +1,11 @@
-import { dirname, resolve } from 'path';
 import express from 'express';
+import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
+import {
+  MarkTiddlyData,
+  MarkTiddlyPath,
+  MarkTiddlyPathType,
+} from '../common/types';
 import { loadFiles } from './loader';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -18,10 +23,14 @@ export function serve(options: {
   const app = new express();
   const loading = loadFiles(options);
   const activeName = defaultOpen?.toLowerCase();
+  const activeItem: MarkTiddlyPath = {
+    type: MarkTiddlyPathType.Path,
+    path: activeName || '',
+  };
 
   app.get('/api/data', async (req, res) => {
     const tiddlers = await loading;
-    res.send({ title, tiddlers, activeName, ssr });
+    res.send({ title, tiddlers, activeItem, ssr } as MarkTiddlyData);
   });
 
   app.get('/:path([^/]+)', (req, res) => {

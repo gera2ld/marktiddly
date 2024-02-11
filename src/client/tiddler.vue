@@ -21,12 +21,13 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue';
-import { MarkTiddler } from '../common/types';
+import { MarkTiddler, MarkTiddlyPathType } from '../common/types';
 import {
   getRenderer,
-  getTiddlerByUrl,
   getTiddlerFamily,
+  getTiddlerNameByUrl,
   getTiddlerUrl,
+  store,
 } from './util';
 
 const { tiddler, closable = false } = defineProps<{
@@ -48,7 +49,12 @@ const handleClick = (e: MouseEvent) => {
     const href = a.getAttribute('href');
     if (href?.startsWith('?')) {
       e.preventDefault();
-      if (getTiddlerByUrl(href)) {
+      const pathInfo = getTiddlerNameByUrl(href);
+      if (
+        pathInfo &&
+        (pathInfo.type === MarkTiddlyPathType.Ref ||
+          store.tiddlerMap.has(pathInfo.path))
+      ) {
         emit('link', href);
       }
     }

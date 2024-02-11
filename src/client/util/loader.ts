@@ -1,9 +1,12 @@
 import ky from 'ky';
-import { MarkTiddler } from '../../common/types';
-import { MarkTiddlyData } from '../types';
+import {
+  MarkTiddler,
+  MarkTiddlyData,
+  MarkTiddlyPathType,
+} from '../../common/types';
+import { b64decode } from './base64';
 import { store } from './store';
 import { decryptMessage, getTiddlerNameByUrl, pakoInflate } from './util';
-import { b64decode } from './base64';
 
 export const PWD_KEY = 'mtpwd';
 
@@ -45,28 +48,19 @@ async function loadDataFromLocal() {
   } else {
     marktiddlyData = data;
   }
-  const { tiddlers, activeName, ssr } = marktiddlyData;
-  return { tiddlers, activeName, ssr };
+  const { tiddlers, activePath, ssr } = marktiddlyData;
+  return { tiddlers, activePath, ssr };
 }
 
 async function loadDataFromRemote() {
-  const {
-    title,
-    tiddlers,
-    activeName,
-    ssr,
-  }: {
-    title?: string;
-    tiddlers: MarkTiddler[];
-    activeName?: string;
-    ssr: boolean;
-  } = await ky('/api/data').json();
+  const { title, tiddlers, activePath, ssr } =
+    await ky('/api/data').json<MarkTiddlyData>();
   if (title) store.title = title;
-  return { tiddlers, activeName, ssr };
+  return { tiddlers, activePath, ssr };
 }
 
 export async function loadTiddlers() {
-  const { tiddlers, activeName, ssr } =
+  const { tiddlers, activePath, ssr } =
     (await loadDataFromLocal()) || (await loadDataFromRemote());
   const tiddlerMap = new Map<string, MarkTiddler>();
   const idMap = new Map<string, string>();
@@ -76,19 +70,20 @@ export async function loadTiddlers() {
   });
   store.tiddlerMap = tiddlerMap;
   store.tiddlerIdMap = idMap;
-  store.defaultName = activeName;
-  store.activeName ||= activeName;
+  store.defaultPath = activePath;
+  store.activePath ||= activePath;
   store.ssr = ssr ?? false;
 }
 
 export function getTiddlerByUrl(search?: string) {
-  const p = getTiddlerNameByUrl(search);
-  return p && store.tiddlerMap.get(p);
+  const pathInfo = getTiddlerNameByUrl(search);
+  return pathInfo?.type === MarkTiddlyPathType.Path
+    ? store.tiddlerMap.get(pathInfo.path)
+    : undefined;
 }
 
 export function checkUrl() {
-  const name = getTiddlerNameByUrl();
-  store.activeName = name || store.defaultName;
+  store.activePath = getTiddlerNameByUrl() || store.defaultPath;
 }
 
 window.addEventListener('popstate', checkUrl);

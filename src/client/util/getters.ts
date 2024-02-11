@@ -1,8 +1,9 @@
 import { computed } from 'vue';
+import { MarkTiddler, MarkTiddlyPathType } from '../../common/types';
 import { renderMarkdown } from './markdown';
 import { fuzzySearch } from './search';
 import { store } from './store';
-import { getTiddlerFamily } from './util';
+import { getTiddlerFamily, safeHtml } from './util';
 
 const tiddlerData = computed(() => {
   const tiddlers = [...store.tiddlerMap.values()];
@@ -77,7 +78,32 @@ function replaceSep(html: string) {
 }
 
 export const activeTiddler = computed(() => {
-  const tiddler = store.tiddlerMap.get(store.activeName || '');
+  let tiddler: MarkTiddler | undefined;
+  if (store.activePath) {
+    const { type, path } = store.activePath;
+    if (type === MarkTiddlyPathType.Path) {
+      tiddler = store.tiddlerMap.get(path);
+    } else if (type === MarkTiddlyPathType.Ref) {
+      const backlinks = [...store.tiddlerMap.values()].filter((tiddler) =>
+        tiddler.links?.includes(path),
+      );
+      tiddler = {
+        name: `r/${path}`,
+        path,
+        frontmatter: { title: `Backlinks to ${path}` },
+        html: [
+          '<ul>',
+          ...(backlinks.length
+            ? backlinks.map(
+                (item) =>
+                  `<li><a href="?p=${encodeURIComponent(item.name)}">${safeHtml(item.frontmatter.title)}</a></li>`,
+              )
+            : `<li>None</li>`),
+          '</ul>',
+        ].join(''),
+      };
+    }
+  }
   if (tiddler && tiddler.html == null) renderMarkdown(tiddler);
   return tiddler;
 });

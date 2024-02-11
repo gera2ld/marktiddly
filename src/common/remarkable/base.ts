@@ -1,6 +1,12 @@
 import type { Remarkable } from 'remarkable';
+import { MarkTiddlyPath, MarkTiddlyPathType } from '../types';
 
-export function linkPlugin(md: Remarkable) {
+export function linkPlugin(
+  md: Remarkable,
+  opts?: {
+    onLink?: (data: MarkTiddlyPath) => void;
+  },
+) {
   md.core.ruler.before(
     'inline',
     'rel-link',
@@ -10,15 +16,25 @@ export function linkPlugin(md: Remarkable) {
         if (token.type === 'inline' && content) {
           // [[label]] -> [label](?p=label)
           content = content.replace(/\[\[(.+?)\]\]/g, (_, g1) => {
-            const path = `?p=${encodeURIComponent(g1.toLowerCase())}`;
-            return `[${g1}](${path})`;
+            const path = g1.toLowerCase();
+            opts?.onLink?.({
+              type: MarkTiddlyPathType.Path,
+              path,
+            });
+            const url = `?p=${encodeURIComponent(path)}`;
+            return `[${g1}](${url})`;
           });
           // auto URL
           content = content.replace(/(^|\s)(https?:\/\/\S+)/g, '$1<$2>');
-          // #xxx -> [xxx](?p=tags.xxx)
-          content = content.replace(/(^|\s)#([^\s#]+)/g, (_, g1, g2) => {
-            const path = encodeURIComponent(`tags.${g2.toLowerCase()}`);
-            return `${g1}[#${g2}](?p=${path})`;
+          // #xxx -> [xxx](?r=%23xxx)
+          content = content.replace(/(^|\s)(#[^\s#]+)/g, (_, g1, g2) => {
+            const path = g2.toLowerCase();
+            opts?.onLink?.({
+              type: MarkTiddlyPathType.Ref,
+              path,
+            });
+            const url = `?r=${encodeURIComponent(path)}`;
+            return `${g1}[${g2}](${url})`;
           });
           token.content = content;
         }

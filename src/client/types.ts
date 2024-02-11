@@ -1,12 +1,4 @@
 import hljs from 'highlight.js';
-import { MarkTiddler } from '../common/types';
-
-export interface MarkTiddlyData {
-  title?: string;
-  tiddlers?: MarkTiddler[];
-  activeName?: string;
-  ssr?: boolean;
-}
 
 declare global {
   interface Window {

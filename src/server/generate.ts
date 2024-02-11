@@ -1,6 +1,11 @@
+import { readFile } from 'fs/promises';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
-import { readFile } from 'fs/promises';
+import {
+  MarkTiddlyData,
+  MarkTiddlyPath,
+  MarkTiddlyPathType,
+} from '../common/types';
 import { loadFiles } from './loader';
 import { packData } from './util';
 
@@ -31,6 +36,12 @@ export async function generate(options: {
   const tiddlers = await loadFiles(options);
   const clientJs = await readFile(resolve(dist, 'client.js'), 'utf8');
   const activeName = options.defaultOpen?.toLowerCase();
+  const activePath: MarkTiddlyPath | undefined = activeName
+    ? {
+        type: MarkTiddlyPathType.Path,
+        path: activeName,
+      }
+    : undefined;
   const { title, useCdn, favicon, pgpHint, ssr } = options;
   if (title) {
     html = html.replace(/<title>[^<]<*\/title>/, `<title>${title}</title>`);
@@ -50,7 +61,7 @@ export async function generate(options: {
       JSON.stringify(manifest),
     )}"`,
   );
-  const rawData = { tiddlers, activeName, ssr };
+  const rawData: MarkTiddlyData = { tiddlers, activePath, ssr };
   let data: { meta?: string; data: unknown } = await packData(
     JSON.stringify(rawData),
     options,

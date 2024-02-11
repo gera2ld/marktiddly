@@ -1,8 +1,8 @@
 import { memoize } from 'lodash-es';
-import { MarkTiddler } from '../../common/types';
-import { getTiddlerFamily } from './util';
-import { store } from './store';
 import { linkPlugin } from '../../common/remarkable/base';
+import { MarkTiddler, MarkTiddlyPathType } from '../../common/types';
+import { store } from './store';
+import { getTiddlerFamily } from './util';
 
 const linkRenderPlugin = {
   name: 'links',
@@ -11,17 +11,17 @@ const linkRenderPlugin = {
     el.querySelectorAll('a').forEach((a) => {
       const href = a.getAttribute('href');
       if (href?.startsWith('?')) {
-        let p = new URLSearchParams(href).get('p') || '';
-        p = (p && store.tiddlerIdMap.get(p)) || p;
-        const linked = getTiddlerFamily(p);
-        if (linked.length) {
-          if (!p.startsWith('tags.')) {
+        let p = new URLSearchParams(href).get(MarkTiddlyPathType.Path) || '';
+        if (p) {
+          p = store.tiddlerIdMap.get(p) || p;
+          const linked = getTiddlerFamily(p);
+          if (linked.length) {
             a.textContent = linked
               .map((t) => t.frontmatter.title || t.path)
               .join('/');
+          } else {
+            a.classList.add('non-existent');
           }
-        } else {
-          a.classList.add('non-existent');
         }
       } else {
         a.target = '_blank';

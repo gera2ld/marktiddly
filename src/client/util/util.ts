@@ -1,13 +1,24 @@
-import { MarkTiddler } from '../../common/types';
+import {
+  MarkTiddler,
+  MarkTiddlyPath,
+  MarkTiddlyPathType,
+} from '../../common/types';
 import { store } from './store';
 
-const KEY_PATH = 'p';
-store.activeName = getTiddlerNameByUrl();
+store.activePath = getTiddlerNameByUrl();
 
-export function getTiddlerNameByUrl(search = window.location.search) {
+export function getTiddlerNameByUrl(
+  search = window.location.search,
+): MarkTiddlyPath | undefined {
   const query = new URLSearchParams(search);
-  const p = query.get(KEY_PATH) || undefined;
-  return p;
+  const p = query.get(MarkTiddlyPathType.Path);
+  const r = query.get(MarkTiddlyPathType.Ref);
+  if (p) {
+    return { type: MarkTiddlyPathType.Path, path: p };
+  }
+  if (r) {
+    return { type: MarkTiddlyPathType.Ref, path: r };
+  }
 }
 
 export async function decryptMessage(
@@ -38,5 +49,16 @@ export function getTiddlerFamily(name: string) {
 }
 
 export function getTiddlerUrl(tiddler: MarkTiddler) {
-  return `?${new URLSearchParams({ [KEY_PATH]: tiddler.name })}`;
+  return `?${new URLSearchParams({ [MarkTiddlyPathType.Path]: tiddler.name })}`;
+}
+
+export function safeHtml(html: string) {
+  return html.replace(
+    /[&<]/g,
+    (m) =>
+      ({
+        '&': '&amp;',
+        '<': '&lt;',
+      })[m] || '',
+  );
 }

@@ -15,6 +15,7 @@
       <ul
         class="overflow-x-hidden overflow-y-auto text-sm max-h-[50vh] mt-4"
         v-if="matches.length"
+        ref="list"
       >
         <li
           v-for="(item, index) in matches"
@@ -52,6 +53,7 @@ import {
 
 const keyword = ref('');
 const input = ref<HTMLInputElement>();
+const list = ref<HTMLUListElement>();
 
 watch(
   keyword,
@@ -71,6 +73,27 @@ watch(
         input.value?.focus();
       });
     }
+  },
+);
+
+watch(
+  () => store.search?.active,
+  (active) => {
+    if (active == null) return;
+    nextTick(() => {
+      const activeEl = list.value?.querySelector('.search-item-active');
+      const ul = list.value;
+      if (!activeEl || !ul) return;
+      const rectUl = ul.getBoundingClientRect();
+      const rectActive = activeEl.getBoundingClientRect();
+      let scroll = 0;
+      if (rectActive.top < rectUl.top) {
+        scroll = 1;
+      } else if (rectActive.bottom > rectUl.bottom) {
+        scroll = -1;
+      }
+      if (scroll) activeEl.scrollIntoView(scroll > 0);
+    });
   },
 );
 </script>

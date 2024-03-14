@@ -30,23 +30,23 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@babel/runtime": "^7.23.9",
-    "@hono/node-server": "^1.7.0",
+    "@babel/runtime": "^7.24.0",
+    "@hono/node-server": "^1.8.2",
     "@leeoniya/ufuzzy": "^1.0.14",
     "@unocss/reset": "^0.58.5",
-    "@violentmonkey/shortcut": "^1.4.1",
+    "@violentmonkey/shortcut": "^1.4.3",
     "commander": "^12.0.0",
     "github-markdown-css": "^5.5.1",
-    "globby": "^14.0.0",
+    "globby": "^14.0.1",
     "highlight.js": "^11.9.0",
-    "hono": "^4.0.1",
+    "hono": "^4.1.0",
     "js-yaml": "^4.1.0",
-    "ky": "^1.2.0",
+    "ky": "^1.2.2",
     "lodash-es": "^4.17.21",
-    "openpgp": "^5.11.0",
+    "openpgp": "^5.11.1",
     "pako": "^2.1.0",
     "remarkable": "^2.0.1",
-    "vue": "^3.4.18"
+    "vue": "^3.4.21"
   },
   "devDependencies": {
     "@gera2ld/plaid": "~2.7.0",
@@ -59,7 +59,7 @@
     "fancy-log": "^2.0.0",
     "gulp": "^4.0.2",
     "http-proxy-middleware": "^2.0.6",
-    "husky": "^9.0.10",
+    "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "rollup-plugin-browsersync": "^1.3.3",
     "rollup-plugin-vue": "^6.0.0"

@@ -1,9 +1,9 @@
-import { defineConfig } from 'rollup';
-import { definePlugins, defineExternal } from '@gera2ld/plaid-rollup';
-import vue from 'rollup-plugin-vue';
+import { defineExternal, definePlugins } from '@gera2ld/plaid-rollup';
 import hljsPkg from '@highlightjs/cdn-assets/package.json' assert { type: 'json' };
-import { browserSyncPlugin } from './scripts/browser-sync.js';
+import { defineConfig } from 'rollup';
+import vue from 'rollup-plugin-vue';
 import pkg from './package.json' assert { type: 'json' };
+import { browserSyncPlugin } from './scripts/browser-sync.js';
 
 const DIST = 'dist';
 const BANNER = `/*! ${pkg.name} v${pkg.version} | ${pkg.license} License */`;
@@ -14,6 +14,9 @@ export default defineConfig([
     input: 'src/bin/index.ts',
     plugins: definePlugins({
       minimize: false,
+      replaceValues: {
+        'process.env.VERSION': pkg.version,
+      },
     }),
     external: defineExternal(Object.keys(pkg.dependencies)),
     output: {
@@ -36,7 +39,7 @@ export default defineConfig([
       !isProd &&
         browserSyncPlugin({ dist: DIST, port: +process.env.PORT || 4000 }),
     ].filter(Boolean),
-    external: id => id.startsWith('https://'),
+    external: (id) => id.startsWith('https://'),
     output: {
       format: 'esm',
       file: `${DIST}/client.js`,

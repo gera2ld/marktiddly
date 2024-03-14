@@ -20,7 +20,7 @@ function escapeScript(content: string): string {
 export async function generate(options: {
   cwd: string;
   ssr: boolean;
-  useCdn: boolean;
+  offline: boolean;
   pako: boolean;
   glob: string[];
   pgp?: string;
@@ -42,14 +42,14 @@ export async function generate(options: {
         path: activeName,
       }
     : undefined;
-  const { title, useCdn, favicon, pgpHint, ssr } = options;
+  const { title, offline, favicon, pgpHint, ssr } = options;
   if (title) {
     html = html.replace(/<title>[^<]<*\/title>/, `<title>${title}</title>`);
     manifest.name = title;
   }
   if (favicon) {
     manifest.icons[0].src = favicon;
-  } else if (useCdn) {
+  } else if (!offline) {
     manifest.icons[0].src = `${cdnPrefix}/dist/favicon.png`;
   } else {
     const iconData = await readFile(resolve(dist, 'favicon.png'), 'base64');
@@ -79,9 +79,9 @@ export async function generate(options: {
           }),
       ),
       '</script>',
-      ...(useCdn
-        ? [`<script${g} src="${cdnPrefix}/dist/client.js"></script>`]
-        : [`<script${g}>`, escapeScript(clientJs), '</script>']),
+      ...(offline
+        ? [`<script${g}>`, escapeScript(clientJs), '</script>']
+        : [`<script${g} src="${cdnPrefix}/dist/client.js"></script>`]),
     ].join(''),
   );
   return html;

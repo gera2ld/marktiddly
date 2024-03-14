@@ -62,11 +62,11 @@ export async function generate(options: {
     )}"`,
   );
   const rawData: MarkTiddlyData = { tiddlers, activePath, ssr };
-  let data: { meta?: string; data: unknown } = await packData(
+  let data: { contentType?: string; data: unknown } = await packData(
     JSON.stringify(rawData),
     options,
   );
-  if (!data.meta) data = { data: rawData };
+  if (!data.contentType) data = { data: rawData };
   html = html.replace(/<script(\b[^>]*?) src="client.js"><\/script>/, (_, g) =>
     [
       '<script>',

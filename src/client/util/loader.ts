@@ -11,12 +11,12 @@ import { decryptMessage, getTiddlerNameByUrl, pakoInflate } from './util';
 export const PWD_KEY = 'mtpwd';
 
 async function loadDataFromLocal() {
-  const { title, passwordHint, meta, data } = window.marktiddly || {};
+  const { title, passwordHint, contentType, data } = window.marktiddly || {};
   if (title) store.title = title;
   if (!data) return;
   let marktiddlyData: MarkTiddlyData;
-  if (meta) {
-    const pipes = meta.split(':').filter(Boolean);
+  if (contentType) {
+    const pipes = contentType.split(':').filter(Boolean);
     const decoder = new TextDecoder();
     let binary = b64decode(data as string);
     for (const pipe of pipes) {

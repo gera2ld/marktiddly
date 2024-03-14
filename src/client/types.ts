@@ -6,7 +6,7 @@ declare global {
     marktiddly?: {
       title?: string;
       passwordHint?: string;
-      meta?: string;
+      contentType?: string;
       data: unknown;
     };
   }

@@ -22,16 +22,16 @@ export async function packData(
     pako: true,
     ...options,
   };
-  const meta: string[] = [];
+  const contentType: string[] = [];
   let data = new TextEncoder().encode(input);
   if (options.pako) {
-    meta.push('pako');
+    contentType.push('pako');
     data = pako.deflate(data);
   }
   if (options.pgp) {
-    meta.push('pgp');
+    contentType.push('pgp');
     data = await encryptMessage(data, [options.pgp]);
   }
   const output = Buffer.from(data).toString('base64');
-  return { meta: meta.reverse().join(':'), data: output };
+  return { contentType: contentType.reverse().join(':'), data: output };
 }

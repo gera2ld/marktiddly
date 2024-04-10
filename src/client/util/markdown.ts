@@ -1,5 +1,5 @@
 import { memoize } from 'lodash-es';
-import { linkPlugin } from '../../common/remarkable/base';
+import { linkPlugin } from '../../common/markdown/base';
 import { MarkTiddler, MarkTiddlyPathType } from '../../common/types';
 import { store } from './store';
 import { getTiddlerFamily } from './util';

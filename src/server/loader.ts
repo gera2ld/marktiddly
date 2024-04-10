@@ -1,8 +1,8 @@
 import { readFile } from 'fs/promises';
 import { globby } from 'globby';
-import yaml from 'js-yaml';
+import yaml from 'yaml';
 import { join } from 'path';
-import { getMd } from '../common/remarkable';
+import { getMd } from '../common/markdown';
 import { MarkTiddler, MarkTiddlerFrontmatter } from '../common/types';
 
 export async function loadFiles({
@@ -64,7 +64,7 @@ function parseMetadata(content: string) {
   if (endOffset > 0) {
     const raw = content.slice(4, endOffset);
     try {
-      frontmatter = yaml.load(raw);
+      frontmatter = yaml.parse(raw);
     } catch {
       // noop
     }

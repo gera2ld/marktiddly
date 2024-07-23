@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts" setup>
-import { debounce } from 'lodash-es';
+import { debounce } from 'es-toolkit';
 import { nextTick, ref, watch } from 'vue';
 import { store, matches } from './util';
 import {

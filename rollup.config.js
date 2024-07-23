@@ -1,8 +1,8 @@
 import { defineExternal, definePlugins } from '@gera2ld/plaid-rollup';
-import hljsPkg from '@highlightjs/cdn-assets/package.json' assert { type: 'json' };
+import hljsPkg from '@highlightjs/cdn-assets/package.json' with { type: 'json' };
 import { defineConfig } from 'rollup';
 import vue from 'rollup-plugin-vue';
-import pkg from './package.json' assert { type: 'json' };
+import pkg from './package.json' with { type: 'json' };
 import { browserSyncPlugin } from './scripts/browser-sync.js';
 
 const DIST = 'dist';

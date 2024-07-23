@@ -1,4 +1,4 @@
-import { memoize } from 'lodash-es';
+import { once } from 'es-toolkit';
 import { linkPlugin } from '../../common/markdown/base';
 import { MarkTiddler, MarkTiddlyPathType } from '../../common/types';
 import { store } from './store';
@@ -31,7 +31,7 @@ const linkRenderPlugin = {
   },
 };
 
-export const getRenderer = memoize(async () => {
+export const getRenderer = once(async () => {
   const { builtInPlugins, MarkdownRenderer, HtmlRenderer } = await import(
     'https://cdn.jsdelivr.net/gh/gera2ld/js-lib@dist/render.js'
   );

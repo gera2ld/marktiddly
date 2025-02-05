@@ -1,7 +1,7 @@
 import { readFile } from 'fs/promises';
 import { globby } from 'globby';
-import yaml from 'yaml';
 import { join } from 'path';
+import yaml from 'yaml';
 import { getMd } from '../common/markdown';
 import { MarkTiddler, MarkTiddlerFrontmatter } from '../common/types';
 
@@ -45,6 +45,7 @@ async function loadFile({
 }): Promise<MarkTiddler> {
   const { frontmatter, content } = parseMetadata(
     await readFile(join(cwd, file), 'utf8'),
+    file,
   );
   const name = file.replace(/\.md$/, '');
   frontmatter.title ||= name;
@@ -56,7 +57,7 @@ async function loadFile({
   };
 }
 
-function parseMetadata(content: string) {
+function parseMetadata(content: string, file: string) {
   let frontmatter: MarkTiddlerFrontmatter;
   const endOffset = content.startsWith('---\n')
     ? content.indexOf('\n---\n')
@@ -65,8 +66,8 @@ function parseMetadata(content: string) {
     const raw = content.slice(4, endOffset);
     try {
       frontmatter = yaml.parse(raw);
-    } catch {
-      // noop
+    } catch (err) {
+      console.error(`Invalid frontmatter for ${file}:`, err);
     }
     const offset = endOffset + 5;
     content = content.slice(offset).trim();

@@ -8,16 +8,18 @@
   "bin": "dist/bin.mjs",
   "main": "dist/bin.mjs",
   "scripts": {
-    "ci": "run-s lint",
-    "lint": "eslint . && prettier --check --ignore-path .eslintignore .",
-    "lint:fix": "eslint . --fix && prettier --write --ignore-path .eslintignore .",
-    "dev": "gulp dev",
-    "dev:demo": "gulp demo",
-    "clean": "gulp clean",
-    "build:js": "NODE_ENV=production gulp build",
-    "build": "run-s ci clean build:js",
-    "prepare": "husky install",
-    "prepublishOnly": "run-s build"
+    "lint:ts": "vue-tsc",
+    "lint:js": "eslint src",
+    "lint": "pnpm /^lint:/",
+    "format": "prettier -w src",
+    "dev": "pnpm /^build:/ --watch",
+    "demo": "node . serve --cwd demo -p 4000",
+    "clean": "del-cli dist",
+    "build:bin": "vite build",
+    "build:client": "ENTRY=client vite build",
+    "build": "pnpm clean && pnpm /^build:/",
+    "prepare": "husky || true",
+    "prepublishOnly": "pnpm run build"
   },
   "files": [
     "dist"
@@ -30,44 +32,53 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@babel/runtime": "^7.24.0",
-    "@hono/node-server": "^1.8.2",
-    "@leeoniya/ufuzzy": "^1.0.14",
-    "@unocss/reset": "^0.58.5",
-    "@violentmonkey/shortcut": "^1.4.3",
-    "commander": "^12.0.0",
-    "es-toolkit": "^1.13.1",
-    "github-markdown-css": "^5.5.1",
-    "globby": "^14.0.1",
-    "highlight.js": "^11.9.0",
-    "hono": "^4.1.0",
-    "ky": "^1.2.2",
+    "@babel/runtime": "^7.26.7",
+    "@hono/node-server": "^1.13.8",
+    "@leeoniya/ufuzzy": "^1.0.18",
+    "@unocss/reset": "^65.4.3",
+    "@violentmonkey/shortcut": "^1.4.4",
+    "commander": "^13.1.0",
+    "es-toolkit": "^1.32.0",
+    "github-markdown-css": "^5.8.1",
+    "globby": "^14.0.2",
+    "highlight.js": "^11.11.1",
+    "hono": "^4.6.20",
+    "ky": "^1.7.4",
     "markdown-it": "^14.1.0",
-    "openpgp": "^5.11.1",
+    "openpgp": "^6.1.0",
     "pako": "^2.1.0",
-    "vue": "^3.4.21",
-    "yaml": "^2.4.1"
+    "vue": "^3.5.13",
+    "yaml": "^2.7.0"
   },
   "devDependencies": {
-    "@gera2ld/plaid": "~2.7.0",
-    "@gera2ld/plaid-common-vue": "~2.7.0",
-    "@gera2ld/plaid-rollup": "~2.7.0",
-    "@highlightjs/cdn-assets": "^11.9.0",
-    "@types/markdown-it": "^14.0.0",
-    "del": "^7.1.0",
-    "fancy-log": "^2.0.0",
-    "gulp": "^4.0.2",
-    "http-proxy-middleware": "^2.0.6",
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
-    "rollup-plugin-browsersync": "^1.3.3",
-    "rollup-plugin-vue": "^6.0.0"
+    "@eslint/js": "^9.19.0",
+    "@highlightjs/cdn-assets": "^11.11.1",
+    "@types/markdown-it": "^14.1.2",
+    "@types/pako": "^2.0.3",
+    "@unocss/postcss": "^65.4.3",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "del-cli": "^6.0.0",
+    "eslint": "^9.19.0",
+    "eslint-plugin-vue": "^9.32.0",
+    "globals": "^15.14.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "postcss-nesting": "^13.0.1",
+    "read-package-up": "^11.0.0",
+    "typescript": "~5.7.3",
+    "typescript-eslint": "^8.23.0",
+    "unocss": "^65.4.3",
+    "vite": "^6.0.11",
+    "vue-tsc": "^2.2.0"
   },
   "repository": "git@github.com:gera2ld/marktiddly.git",
   "lint-staged": {
-    "*.{ts,tsx,vue,css}": [
+    "*.{ts,tsx,vue}": [
       "eslint --fix",
-      "prettier -w --ignore-path .eslintignore"
+      "prettier -w"
+    ],
+    "*.css": [
+      "prettier -w"
     ]
   }
 }

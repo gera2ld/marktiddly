@@ -6,7 +6,7 @@ import { generate, serve } from '../server';
 program
   .name('marktiddly')
   .description('Render Markdown files as tiddlers')
-  .version('process.env.VERSION');
+  .version(process.env.VERSION || '');
 
 program
   .command('generate')

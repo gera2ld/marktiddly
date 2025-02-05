@@ -18,7 +18,7 @@ async function loadDataFromLocal() {
   if (contentType) {
     const pipes = contentType.split(':').filter(Boolean);
     const decoder = new TextDecoder();
-    let binary = b64decode(data as string);
+    let binary: Uint8Array = b64decode(data as string);
     for (const pipe of pipes) {
       if (pipe === 'pako') {
         binary = await pakoInflate(binary);

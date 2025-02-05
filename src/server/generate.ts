@@ -10,7 +10,7 @@ import { loadFiles } from './loader';
 import { packData } from './util';
 
 const dist = dirname(fileURLToPath(import.meta.url));
-const version = 'process.env.VERSION';
+const version = process.env.VERSION;
 const cdnPrefix = `https://cdn.jsdelivr.net/npm/marktiddly@${version}`;
 
 function escapeScript(content: string): string {
@@ -67,7 +67,7 @@ export async function generate(options: {
     options,
   );
   if (!data.contentType) data = { data: rawData };
-  html = html.replace(/<script(\b[^>]*?) src="client.js"><\/script>/, (_, g) =>
+  html = html.replace(/<script(\b[^>]*?) src="[^"]*"><\/script>/, (_, g) =>
     [
       '<script>',
       escapeScript(

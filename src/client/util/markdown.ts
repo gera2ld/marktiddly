@@ -6,7 +6,7 @@ import { getTiddlerFamily } from './util';
 
 const linkRenderPlugin = {
   name: 'links',
-  remarkable: linkPlugin,
+  markdown: linkPlugin,
   onMounted(el: HTMLElement) {
     el.querySelectorAll('a').forEach((a) => {
       const href = a.getAttribute('href');

@@ -1,7 +1,7 @@
 <template>
   <main>
     <Header />
-    <div class="relative z-0 max-w-screen-lg min-h-[80vh] mx-auto p-4">
+    <div>
       <div class="markdown-body bg-transparent">
         <TransitionGroup name="tiddler">
           <Tiddler

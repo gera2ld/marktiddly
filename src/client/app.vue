@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen relative">
+  <div class="min-h-screen relative">
     <PasswordForm v-if="store.password" @submit="handlePassword" />
     <template v-else>
       <SearchBox />

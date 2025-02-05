@@ -1,5 +1,15 @@
 @unocss;
 
+:root {
+  --nav-height: 4rem;
+  --footer-height: 4rem;
+  --aside-width: 260px;
+}
+
+html {
+  @apply scroll-pt-[var(--nav-height)] scroll-smooth;
+}
+
 body,
 .bg-primary {
   @apply bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300;
@@ -29,6 +39,10 @@ kbd {
   @apply rounded bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-200 text-sm p-1;
 }
 
+.tiddler {
+  @apply relative z-0 max-w-screen-lg mx-auto children:min-w-0 lg:grid max-w-screen-xl grid-cols-[var(--aside-width)_1fr_var(--aside-width)] gap-x-8 px-4;
+}
+
 .markdown-body {
   a.non-existent {
     @apply text-red-400 cursor-not-allowed;
@@ -44,6 +58,38 @@ kbd {
 
   code.language-mermaid br {
     display: initial;
+  }
+
+  :target {
+    @apply relative;
+    &::before {
+      content: '👉';
+      @apply absolute top-1/2 right-full -translate-y-1/2 mr-4;
+    }
+  }
+}
+
+.toc {
+  --toc-depth: 0;
+  @apply lg:sticky lg:top-[var(--nav-height)] lg:max-h-[calc(100vh-var(--nav-height)-var(--footer-height))] lg:overflow-y-auto lg:p-4;
+  ul {
+    @apply text-sm list-none m-0 p-0;
+  }
+  li {
+    @apply mb-2 truncate;
+    padding-left: calc(var(--toc-depth, 0) * 16px);
+  }
+  p {
+    @apply m-0;
+  }
+  a:hover {
+    @apply no-underline;
+  }
+  a:not(:hover) {
+    @apply text-gray-500;
+  }
+  li.active a {
+    @apply text-blue-600;
   }
 }
 

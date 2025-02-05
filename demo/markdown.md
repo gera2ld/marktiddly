@@ -10,7 +10,23 @@ If you don't know about it, go through [this website](https://www.markdownguide.
 
 History of Markdown can be found at <https://en.wikipedia.org/wiki/Markdown>.
 
-This is an example of Markdown:
+Let's have a look at the syntax of Markdown.
+
+## Headings
+
+```md
+# Heading 1
+
+## Heading 2
+
+### Heading 3.1
+
+### Heading 3.2
+```
+
+See also [[markdown.headings]].
+
+## Lists
 
 ```md
 Bullet lists nested within numbered list:
@@ -45,3 +61,11 @@ And this is the corresponding HTML for rendering:
   </li>
 </ol>
 ```
+
+## Code Blocks
+
+````md
+```py
+print('hello, world')
+```
+````

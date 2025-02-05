@@ -1,5 +1,6 @@
 import hljs, { HLJSApi } from 'highlight.js';
 import MarkdownIt from 'markdown-it';
+import MarkdownItAnchor from 'markdown-it-anchor';
 import { MarkTiddlyPath } from '../types';
 import { linkPlugin } from './base';
 
@@ -64,6 +65,7 @@ export function getMd(opts?: { onLink?: (data: MarkTiddlyPath) => void }) {
       return hljs.highlightAuto(str, language ? [language] : undefined).value;
     },
   });
+  md.use(MarkdownItAnchor);
   md.use(linkPlugin, opts);
   return md;
 }

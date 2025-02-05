@@ -71,5 +71,5 @@ const configMap = {
   client: configClient,
 };
 
-const config = configMap[process.env.ENTRY || ''] || configMap.bin;
+const config = configMap[process.env.ENTRY || ''] || configMap.client;
 export default config;

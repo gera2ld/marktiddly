@@ -1,6 +1,6 @@
+import { program } from 'commander';
 import { writeFile } from 'fs/promises';
 import { resolve } from 'path';
-import { program } from 'commander';
 import { generate, serve } from '../server';
 
 program
@@ -53,6 +53,7 @@ program
     '--default-open <name>',
     'The basenames of Markdown files that should be open on page load, note that `.md` must be omitted',
   )
+  .option('--host', 'Listen on all hosts')
   .option('-p, --port <port>', 'The port to listen', '4000')
   .action((options) => {
     serve(options);

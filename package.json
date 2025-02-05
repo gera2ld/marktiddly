@@ -13,7 +13,7 @@
     "lint": "pnpm /^lint:/",
     "format": "prettier -w src",
     "dev": "pnpm /^build:/ --watch",
-    "demo": "node . serve --cwd demo -p 4000",
+    "demo": "node . serve --cwd demo",
     "clean": "del-cli dist",
     "build:bin": "vite build",
     "build:client": "ENTRY=client vite build",

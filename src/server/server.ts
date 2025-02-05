@@ -14,14 +14,21 @@ import { loadFiles } from './loader';
 const __filename = fileURLToPath(import.meta.url);
 const rootDir = dirname(dirname(__filename));
 
-const createStreamBody = (stream: ReadStream) => {
+const createStreamBody = async (stream: ReadStream) => {
+  await new Promise((resolve, reject) => {
+    stream.once('readable', resolve);
+    stream.once('error', reject);
+  });
   const body = new ReadableStream({
     start(controller) {
       stream.on('data', (chunk) => {
         controller.enqueue(chunk);
       });
-      stream.on('end', () => {
+      stream.once('end', () => {
         controller.close();
+      });
+      stream.once('error', (e) => {
+        controller.error(e);
       });
     },
 
@@ -33,6 +40,7 @@ const createStreamBody = (stream: ReadStream) => {
 };
 
 export function serve(options: {
+  host?: boolean;
   port: number | string;
   cwd: string;
   glob: string[];
@@ -54,21 +62,23 @@ export function serve(options: {
     return c.json({ title, tiddlers, activeItem, ssr } as MarkTiddlyData);
   });
 
-  app.get('/:path', (c) => {
-    const filepath = resolve(rootDir, 'dist', c.req.param().path);
+  app.get('*', async (c) => {
+    let filepath = resolve(rootDir, 'dist', c.req.path.slice(1));
+    let stream: ReadableStream;
+    try {
+      stream = await createStreamBody(createReadStream(filepath));
+    } catch {
+      filepath = resolve(rootDir, 'dist/index.html');
+      stream = await createStreamBody(createReadStream(filepath));
+    }
     c.header('content-type', getMimeType(filepath));
-    return c.body(createStreamBody(createReadStream(filepath)));
-  });
-
-  app.get('*', (c) => {
-    const filepath = resolve(rootDir, 'dist/index.html');
-    c.header('content-type', getMimeType(filepath));
-    return c.body(createStreamBody(createReadStream(filepath)));
+    return c.body(stream);
   });
 
   serveHono(
     {
       fetch: app.fetch,
+      hostname: options.host ? '' : undefined,
       port: +port,
     },
     (info) => {
@@ -76,3 +86,7 @@ export function serve(options: {
     },
   );
 }
+
+process.on('uncaughtException', (err) => {
+  console.error(err);
+});

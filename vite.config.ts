@@ -5,14 +5,10 @@ import { readPackageUp } from 'read-package-up';
 import { defineConfig } from 'vite';
 
 const pkg = (await readPackageUp())!.packageJson;
-const hljsPkg = (await readPackageUp({
-  cwd: 'node_modules/@highlightjs/cdn-assets',
-}))!.packageJson;
 
 const defaultConfig = defineConfig({
   define: {
-    'process.env.VERSION': JSON.stringify(pkg.version),
-    'process.env.HLJS_VERSION': JSON.stringify(hljsPkg.version),
+    '__VERSIONS__.marktiddly': JSON.stringify(pkg.version),
   },
   plugins: [vue()],
   build: {

@@ -15,6 +15,13 @@ export default [
     languageOptions: { parserOptions: { parser: tseslint.parser } },
   },
   {
+    languageOptions: {
+      globals: {
+        __VERSIONS__: 'readable',
+      },
+    },
+  },
+  {
     rules: {
       '@typescript-eslint/no-explicit-any': ['warn'],
       '@typescript-eslint/no-unused-vars': [
@@ -33,4 +40,3 @@ export default [
     },
   },
 ];
-

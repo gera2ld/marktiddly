@@ -115,8 +115,10 @@ onMounted(() => {
     if (!toc.value) return;
     const items = toc.value.querySelectorAll<HTMLElement>('li');
     const newActiveItem = [...items].reverse().find((item) => {
-      const id = item.querySelector('a')?.getAttribute('href');
-      const target = id ? document.querySelector<HTMLElement>(id) : undefined;
+      const href = item.querySelector('a')?.getAttribute('href');
+      const target = href?.startsWith('#')
+        ? document.getElementById(href.slice(1))
+        : undefined;
       const rect = target?.getBoundingClientRect();
       return rect && rect.top <= 64;
     });

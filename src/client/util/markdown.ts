@@ -6,7 +6,7 @@ import { getTiddlerFamily } from './util';
 
 export const getRenderer = once(async () => {
   const { builtInPlugins, MarkdownRenderer, HtmlRenderer } = await import(
-    'js-lib/src/render'
+    'js-lib/node/render'
   );
   const plugins = [
     ...builtInPlugins,

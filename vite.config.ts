@@ -26,19 +26,30 @@ const BANNER = `/*! ${pkg.name} v${pkg.version} | ${pkg.license} License */`;
 
 const configBin = defineConfig({
   ...defaultConfig,
-  // Set root to correct the output paths of HTMLs
-  root: 'src',
   build: {
     ...defaultConfig.build,
     minify: false,
-    outDir: '../dist',
+    outDir: 'dist',
+    lib: {
+      entry: resolve(__dirname, 'src/bin/index.ts'),
+      formats: ['es'],
+    },
     rollupOptions: {
-      input: resolve(__dirname, 'src/bin/index.ts'),
       output: {
         entryFileNames: 'bin.mjs',
         banner: `#!/usr/bin/env node\n${BANNER}`,
       },
       external: [...builtinModules, ...Object.keys(pkg.dependencies || {})],
+    },
+  },
+  resolve: {
+    ...defaultConfig.resolve,
+    alias: {
+      ...defaultConfig.resolve?.alias,
+      'js-lib/node/render': resolve(
+        __dirname,
+        'node_modules/js-lib/node/render.js',
+      ),
     },
   },
 });
@@ -64,7 +75,7 @@ const configClient = defineConfig({
     ...defaultConfig.resolve,
     alias: {
       ...defaultConfig.resolve?.alias,
-      'js-lib/src/render':
+      'js-lib/node/render':
         'https://cdn.jsdelivr.net/gh/gera2ld/js-lib@dist/render.js',
     },
   },

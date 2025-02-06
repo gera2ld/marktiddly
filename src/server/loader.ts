@@ -1,6 +1,6 @@
 import { readFile } from 'fs/promises';
 import { globby } from 'globby';
-import { builtInPlugins, MarkdownRenderer } from 'js-lib/src/render';
+import { builtInPlugins, MarkdownRenderer } from 'js-lib/node/render';
 import { join } from 'path';
 import yaml from 'yaml';
 import { createLinkPlugin } from '../common/markdown';

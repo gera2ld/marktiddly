@@ -101,7 +101,7 @@ function handleClick(e: MouseEvent) {
 }
 
 watch(
-  () => [body.value, tiddler.html],
+  () => [body.value, tiddler.html] as const,
   async ([bodyEl, html]) => {
     if (!bodyEl || !html) return;
     const renderer = await getRenderer();

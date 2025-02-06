@@ -1,11 +1,11 @@
-import { definePlugin } from 'js-lib/src/render';
+import type { IRenderPlugin } from 'js-lib/node/render';
 import { MarkTiddlyPath, MarkTiddlyPathType } from './types';
 
 export function createLinkPlugin(options?: {
   onLink?: (data: MarkTiddlyPath) => void;
   onMounted?: (el: HTMLElement) => void;
-}) {
-  return definePlugin({
+}): IRenderPlugin {
+  return {
     name: 'links',
     markdown: (md, { enableFeature }) => {
       enableFeature();
@@ -42,5 +42,5 @@ export function createLinkPlugin(options?: {
       });
     },
     onMounted: options?.onMounted,
-  });
+  };
 }

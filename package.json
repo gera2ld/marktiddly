@@ -63,7 +63,7 @@
     "eslint-plugin-vue": "^9.32.0",
     "globals": "^15.14.0",
     "husky": "^9.1.7",
-    "js-lib": "github:gera2ld/js-lib",
+    "js-lib": "github:gera2ld/js-lib#dist",
     "lint-staged": "^15.4.3",
     "postcss-nesting": "^13.0.1",
     "read-package-up": "^11.0.0",

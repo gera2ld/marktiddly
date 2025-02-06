@@ -84,7 +84,7 @@ function handleClick(e: MouseEvent) {
   if (a) {
     const href = a.getAttribute('href');
     if (href?.startsWith('#')) {
-      const el = document.querySelector(href);
+      const el = document.getElementById(href.slice(1));
       if (!el) return;
     } else if (href?.startsWith('?')) {
       e.preventDefault();

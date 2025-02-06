@@ -14,8 +14,8 @@
       </div>
       <div
         v-if="!activeTiddler"
-        class="opacity-20 w-24 h-24 mx-auto mt-[30vh] bg-contain bg-no-repeat"
-        :style="`background-image: url(${store.favicon})`"
+        class="opacity-20 h-[80vh]"
+        :style="`background: center / 96px auto no-repeat url(${store.favicon})`"
       ></div>
     </div>
     <Footer />

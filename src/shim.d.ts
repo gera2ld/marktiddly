@@ -1,1 +1,3 @@
-declare const __VERSIONS__: Record<string, string>;
+declare const __VERSIONS__: {
+  marktiddly: string;
+};

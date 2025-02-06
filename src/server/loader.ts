@@ -1,8 +1,9 @@
 import { readFile } from 'fs/promises';
 import { globby } from 'globby';
+import { builtInPlugins, MarkdownRenderer } from 'js-lib/src/render';
 import { join } from 'path';
 import yaml from 'yaml';
-import { getMd } from '../common/markdown';
+import { createLinkPlugin } from '../common/markdown';
 import { MarkTiddler, MarkTiddlerFrontmatter } from '../common/types';
 
 export async function loadFiles({
@@ -18,16 +19,20 @@ export async function loadFiles({
   const data = await Promise.all(files.map((file) => loadFile({ file, cwd })));
   if (ssr) {
     let links: string[];
-    const md = getMd({
-      onLink: (link) => {
-        links.push(link.path);
-      },
-    });
+    const renderer = await MarkdownRenderer.create([
+      ...builtInPlugins,
+      createLinkPlugin({
+        onLink: (link) => {
+          links.push(link.path);
+        },
+      }),
+    ]);
     data.forEach((tiddler) => {
       if (tiddler.content) {
         links = [];
         tiddler.links = links;
-        tiddler.html = md.render(tiddler.content);
+        const { html } = renderer.render(tiddler.content);
+        tiddler.html = html;
         delete tiddler.content;
       }
     });

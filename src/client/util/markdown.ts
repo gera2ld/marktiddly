@@ -1,41 +1,41 @@
 import { once } from 'es-toolkit';
-import { linkPlugin } from '../../common/markdown/base';
+import { createLinkPlugin } from '../../common/markdown';
 import { MarkTiddler, MarkTiddlyPathType } from '../../common/types';
 import { store } from './store';
 import { getTiddlerFamily } from './util';
 
-const linkRenderPlugin = {
-  name: 'links',
-  markdown: linkPlugin,
-  onMounted(el: HTMLElement) {
-    el.querySelectorAll('a').forEach((a) => {
-      const href = a.getAttribute('href');
-      if (href?.startsWith('?')) {
-        let p = new URLSearchParams(href).get(MarkTiddlyPathType.Path) || '';
-        if (p) {
-          p = store.tiddlerIdMap.get(p) || p;
-          const linked = getTiddlerFamily(p);
-          if (linked.length) {
-            a.textContent = linked
-              .map((t) => t.frontmatter.title || t.path)
-              .join('/');
-          } else {
-            a.classList.add('non-existent');
-          }
-        }
-      } else {
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-      }
-    });
-  },
-};
-
 export const getRenderer = once(async () => {
   const { builtInPlugins, MarkdownRenderer, HtmlRenderer } = await import(
-    'https://cdn.jsdelivr.net/gh/gera2ld/js-lib@dist/render.js'
+    'js-lib/src/render'
   );
-  const plugins = [...builtInPlugins, linkRenderPlugin];
+  const plugins = [
+    ...builtInPlugins,
+    createLinkPlugin({
+      onMounted: (el: HTMLElement) => {
+        el.querySelectorAll('a').forEach((a) => {
+          const href = a.getAttribute('href');
+          if (href?.startsWith('?')) {
+            let p =
+              new URLSearchParams(href).get(MarkTiddlyPathType.Path) || '';
+            if (p) {
+              p = store.tiddlerIdMap.get(p) || p;
+              const linked = getTiddlerFamily(p);
+              if (linked.length) {
+                a.textContent = linked
+                  .map((t) => t.frontmatter.title || t.path)
+                  .join('/');
+              } else {
+                a.classList.add('non-existent');
+              }
+            }
+          } else {
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+          }
+        });
+      },
+    }),
+  ];
   if (store.ssr) {
     const i = plugins.findIndex(({ name }) => name === 'hljs');
     if (i >= 0) {

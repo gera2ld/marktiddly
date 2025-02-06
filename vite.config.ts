@@ -60,6 +60,14 @@ const configClient = defineConfig({
       },
     },
   },
+  resolve: {
+    ...defaultConfig.resolve,
+    alias: {
+      ...defaultConfig.resolve?.alias,
+      'js-lib/src/render':
+        'https://cdn.jsdelivr.net/gh/gera2ld/js-lib@dist/render.js',
+    },
+  },
 });
 
 const configMap = {

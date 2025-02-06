@@ -10,7 +10,7 @@ import { loadFiles } from './loader';
 import { packData } from './util';
 
 const dist = dirname(fileURLToPath(import.meta.url));
-const version = process.env.VERSION;
+const version = __VERSIONS__.marktiddly;
 const cdnPrefix = `https://cdn.jsdelivr.net/npm/marktiddly@${version}`;
 
 function escapeScript(content: string): string {

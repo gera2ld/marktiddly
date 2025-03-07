@@ -40,7 +40,7 @@ kbd {
 }
 
 .tiddler {
-  @apply relative z-0 children:min-w-0 lg:grid max-w-screen-xl grid-cols-[var(--aside-width)_1fr_var(--aside-width)] gap-x-8 mx-auto px-4;
+  @apply relative z-0 children:min-w-0 lg:grid max-w-screen-xl grid-cols-[1fr_var(--aside-width)] gap-x-8 mx-auto px-4 xl:pl-[var(--aside-width)];
 }
 
 .markdown-body {

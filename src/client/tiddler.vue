@@ -1,6 +1,6 @@
 <template>
   <div class="tiddler" @click="handleClick">
-    <div class="flex grid-col-start-2">
+    <div class="flex grid-col-start-1">
       <div class="flex-1 mt-6">
         <div>
           <template v-for="ancestor in family" :key="ancestor.name">
@@ -18,7 +18,7 @@
       </div>
     </div>
     <div
-      class="toc grid-col-start-3 grid-row-start-2"
+      class="toc grid-col-start-2 grid-row-start-2"
       v-if="tocItems"
       ref="toc"
     >
@@ -32,7 +32,7 @@
         </li>
       </ul>
     </div>
-    <div class="grid-col-start-2 py-4" v-html="tiddler.html" ref="body"></div>
+    <div class="grid-col-start-1 py-4" v-html="tiddler.html" ref="body"></div>
   </div>
 </template>
 
